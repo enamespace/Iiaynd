@@ -1,0 +1,54 @@
+你的任务是根据以下故事提示词生成一个完整的推理游戏世界。
+
+故事提示词：{story}
+
+输出必须是一个严格符合以下 JSON 结构的有效 JSON 对象：
+
+```json
+{schema}
+```
+
+## 设计原则
+
+### 1. 逆向生成逻辑链
+- 先确定唯一的真相（truth）
+- 为每个真相维度生成一条直接指向真相的 key_clue
+- 确保玩家收集所有 key_clue 后必然能锁定所有真相维度
+
+### 2. 场景设计
+- 创建 2-4 个场景，场景之间应能相互移动（connected_scenes）
+- 每个场景应包含至少一个可交互的来源（NPC或物品）
+
+### 3. 来源设计（NPC/物品）
+- type 为 "npc" 或 "item"
+- 每个来源携带至少一条线索（hidden_clues）
+- 描述要有氛围感，符合故事设定
+
+### 4. 线索设计
+- clue_type 分为三种：
+  - key_clue：直接锁定真相维度（必须有 deduction_link）
+  - pre_clue：解锁其他线索的前置条件（可选）
+  - filler_clue：填充氛围的内容（无推理价值）
+- deduction_link 必须明确指定 truth_dimension 和 target_value，且 target_value 必须与 truth 中对应维度的值一致
+- unlock_condition 指定需要先收集哪些线索才能解锁
+
+### 5. 行动设计
+- action_type 分为两种：
+  - move：移动到其他场景（需要 target_scene_id）
+  - interact：与NPC/物品交互（需要 target_source_id）
+- 每个行动应有合理的 stamina 消耗（cost）
+
+## 约束条件
+
+1. **truth**：必须包含 2-3 个维度，每个维度有唯一答案
+2. **clues**：至少要有与 truth 维度数量相同的 key_clue
+3. **scenes**：至少 2 个场景，场景之间双向连通
+4. **sources**：每个场景至少 1 个来源
+5. **actions**：每个来源必须有对应的 interact 行动，每个场景连通必须有 move 行动
+
+## 示例故事主题
+
+如果故事提示词过于简短，可以扩展为以下类型：
+- 谋杀案（凶手、凶器、动机）
+- 失窃案（窃贼、赃物、手法）
+- 神秘事件（真相、原因、结果）
