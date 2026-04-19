@@ -56,6 +56,10 @@ class ClueType(Enum):
     pre_clue = "pre_clue"
     filler_clue = "filler_clue"
 
+class ActionType(Enum):
+    move = "move"
+    interact = "interact"
+
 class DeductionLink(BaseModel):
     truth_dimension: str = Field(..., description="指向的真相维度")
     target_value: str = Field(..., description="锁定的值")
@@ -78,6 +82,15 @@ class Clue(BaseModel):
     content: str = Field(..., description="线索内容")
     clue_type: ClueType = Field(..., description="线索类型")
     deduction_link: Optional[DeductionLink] = Field(None, description="推理链接（仅key_clue有）")
+    unlock_condition: Optional[UnlockCondition] = Field(None, description="解锁条件")
+
+class GameAction(BaseModel):
+    id: str = Field(..., description="行动唯一标识符")
+    name: str = Field(..., description="行动名称")
+    action_type: ActionType = Field(..., description="行动类型")
+    target_source_id: Optional[str] = Field(None, description="交互目标来源ID（interact类型）")
+    target_scene_id: Optional[str] = Field(None, description="目标场景ID（move类型）")
+    cost: Dict[str, int] = Field(default_factory=dict, description="行动代价")
     unlock_condition: Optional[UnlockCondition] = Field(None, description="解锁条件")
 
 class ExplanationItem(BaseModel):

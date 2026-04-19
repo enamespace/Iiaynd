@@ -1,5 +1,5 @@
 import pytest
-from src.models import Scene, Source, SourceType, Clue, ClueType, DeductionLink, UnlockCondition
+from src.models import Scene, Source, SourceType, Clue, ClueType, DeductionLink, UnlockCondition, GameAction, ActionType
 
 def test_scene_model_creation():
     scene = Scene(
@@ -63,3 +63,26 @@ def test_clue_pre_clue_with_unlock_condition():
         )
     )
     assert clue.unlock_condition.required_clues == ["CLUE_KEY_2"]
+
+def test_game_action_interact():
+    action = GameAction(
+        id="A1",
+        name="检查红酒杯",
+        action_type=ActionType.interact,
+        target_source_id="ITEM1",
+        cost={"stamina": 5},
+        unlock_condition=None
+    )
+    assert action.action_type == ActionType.interact
+    assert action.target_source_id == "ITEM1"
+
+def test_game_action_move():
+    action = GameAction(
+        id="A2",
+        name="前往客厅",
+        action_type=ActionType.move,
+        target_scene_id="S2",
+        cost={"stamina": 10},
+        unlock_condition=None
+    )
+    assert action.action_type == ActionType.move
