@@ -10,4 +10,5 @@ def test_scene_model_creation():
     )
     assert scene.id == "S1"
     assert scene.name == "书房"
+    assert scene.description == "一间昏暗的书房"
     assert scene.connected_scenes == ["S2", "S3"]
