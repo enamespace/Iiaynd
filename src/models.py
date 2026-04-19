@@ -5,35 +5,9 @@ from pydantic import BaseModel, Field
 
 def get_model_schema_desc(model_class: Type[BaseModel]) -> str:
     """生成一个对 LLM 友好的字段说明 JSON"""
-    schema = model_class.model_json_schema()
-    defs = schema.get("$defs", {})
-    
-    def resolve_type(prop, path=""):
-        if "anyOf" in prop:
-            types = [resolve_type(t, path) for t in prop["anyOf"] if t.get("type") != "null"]
-            return " | ".join(types)
-        if "allOf" in prop or "$ref" in prop:
-            ref = prop.get("$ref") or prop.get("allOf")[0].get("$ref")
-            ref_name = ref.split("/")[-1]
-            ref_model = defs.get(ref_name, {})
-            return {k: resolve_type(v, f"{path}.{k}") for k, v in ref_model.get("properties", {}).items()}
-        if prop.get("type") == "array":
-            return [resolve_type(prop.get("items", {}), f"{path}[]")]
-        if prop.get("type") == "object":
-            if "additionalProperties" in prop:
-                # 处理 Dict[str, Type]
-                inner_type = resolve_type(prop["additionalProperties"], f"{path}.<Key>")
-                # 特殊处理：如果是 Dict[str, Dict]，给出更明确的 Key 示例
-                key_name = "DimensionKey" if "current_hypotheses" in path else "ID"
-                return {f"<{key_name}>": inner_type}
-            return "Dict/Object"
-        
-        desc = prop.get("description", "")
-        type_name = prop.get("type", "any")
-        return f"{type_name}, {desc}"
-
-    result = {k: resolve_type(v, k) for k, v in schema.get("properties", {}).items()}
-    return json.dumps(result, ensure_ascii=False, indent=2)
+    # 使用完整的 schema，包含 $defs 以支持嵌套类型
+    schema = model_class.model_json_schema(mode='validation')
+    return json.dumps(schema, ensure_ascii=False, indent=2)
 
 class EnrichedStory(BaseModel):
     title: str = Field(..., description="故事标题")
