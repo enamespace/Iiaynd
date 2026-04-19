@@ -154,3 +154,18 @@ class SimulatorResponse(BaseModel):
     current_hypotheses: Dict[str, Dict[str, float]] = Field(..., description="真相维度到取值及其概率的映射。例如: {'murderer': {'Butler': 0.7, 'Maid': 0.3}}")
     chosen_action_id: str = Field(..., description="选择执行的行动ID")
     reasoning_trace: str = Field(..., description="详细的逻辑推理过程")
+
+class PlayerState(BaseModel):
+    current_scene_id: str = Field(..., description="当前所在场景ID")
+    collected_clues: List[str] = Field(default_factory=list, description="已收集的线索ID列表")
+    executed_actions: List[str] = Field(default_factory=list, description="已执行的行动ID列表")
+    stamina: int = Field(100, description="体力值")
+    locked_dimensions: Dict[str, Optional[str]] = Field(default_factory=dict, description="已锁定的真相维度")
+
+    def lock_dimension(self, dimension: str, value: str):
+        """锁定一个真相维度"""
+        self.locked_dimensions[dimension] = value
+
+    def is_all_locked(self) -> bool:
+        """检查是否所有维度都已锁定"""
+        return all(v is not None for v in self.locked_dimensions.values())

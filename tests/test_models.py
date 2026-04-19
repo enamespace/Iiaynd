@@ -1,5 +1,5 @@
 import pytest
-from src.models import Scene, Source, SourceType, Clue, ClueType, DeductionLink, UnlockCondition, GameAction, ActionType, GameWorld
+from src.models import Scene, Source, SourceType, Clue, ClueType, DeductionLink, UnlockCondition, GameAction, ActionType, GameWorld, PlayerState
 
 def test_scene_model_creation():
     scene = Scene(
@@ -108,3 +108,46 @@ def test_game_world_creation():
     assert world.truth["凶手"] == "管家"
     assert len(world.scenes) == 1
     assert len(world.clues) == 1
+
+def test_player_state_creation():
+    state = PlayerState(
+        current_scene_id="S1",
+        collected_clues=["CLUE_1"],
+        executed_actions=["A1"],
+        stamina=100,
+        locked_dimensions={"凶手": None, "凶器": None}
+    )
+    assert state.current_scene_id == "S1"
+    assert state.stamina == 100
+    assert state.locked_dimensions["凶手"] is None
+
+def test_player_state_lock_dimension():
+    state = PlayerState(
+        current_scene_id="S1",
+        collected_clues=[],
+        executed_actions=[],
+        stamina=100,
+        locked_dimensions={"凶手": None, "凶器": None}
+    )
+    state.lock_dimension("凶手", "管家")
+    assert state.locked_dimensions["凶手"] == "管家"
+
+def test_player_state_is_all_locked():
+    state = PlayerState(
+        current_scene_id="S1",
+        collected_clues=[],
+        executed_actions=[],
+        stamina=100,
+        locked_dimensions={"凶手": "管家", "凶器": "毒药"}
+    )
+    assert state.is_all_locked() is True
+
+def test_player_state_not_all_locked():
+    state = PlayerState(
+        current_scene_id="S1",
+        collected_clues=[],
+        executed_actions=[],
+        stamina=100,
+        locked_dimensions={"凶手": "管家", "凶器": None}
+    )
+    assert state.is_all_locked() is False
