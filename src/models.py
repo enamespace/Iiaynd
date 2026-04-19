@@ -1,4 +1,5 @@
 import json
+from enum import Enum
 from typing import Dict, List, Any, Optional, Type
 from pydantic import BaseModel, Field
 
@@ -45,6 +46,18 @@ class Scene(BaseModel):
     name: str = Field(..., description="场景名称")
     description: str = Field(..., description="场景描述")
     connected_scenes: List[str] = Field(default_factory=list, description="可移动到的其他场景ID列表")
+
+class SourceType(Enum):
+    npc = "npc"
+    item = "item"
+
+class Source(BaseModel):
+    id: str = Field(..., description="来源唯一标识符")
+    name: str = Field(..., description="NPC或物品名称")
+    type: SourceType = Field(..., description="来源类型：npc或item")
+    description: str = Field(..., description="描述")
+    scene_id: str = Field(..., description="所属场景ID")
+    hidden_clues: List[str] = Field(default_factory=list, description="隐藏的线索ID列表")
 
 class ExplanationItem(BaseModel):
     truth_dim: str = Field(..., description="对应真相中的维度Key")
