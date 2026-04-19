@@ -93,6 +93,13 @@ class GameAction(BaseModel):
     cost: Dict[str, int] = Field(default_factory=dict, description="行动代价")
     unlock_condition: Optional[UnlockCondition] = Field(None, description="解锁条件")
 
+class GameWorld(BaseModel):
+    truth: Dict[str, str] = Field(..., description="真相字典")
+    scenes: List[Scene] = Field(default_factory=list, description="场景列表")
+    sources: List[Source] = Field(default_factory=list, description="来源列表（NPC/物品）")
+    clues: List[Clue] = Field(default_factory=list, description="线索列表")
+    actions: List[GameAction] = Field(default_factory=list, description="行动列表")
+
 class ExplanationItem(BaseModel):
     truth_dim: str = Field(..., description="对应真相中的维度Key")
     truth_val: str = Field(..., description="该维度下的某个可能取值")

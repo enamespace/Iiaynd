@@ -1,5 +1,5 @@
 import pytest
-from src.models import Scene, Source, SourceType, Clue, ClueType, DeductionLink, UnlockCondition, GameAction, ActionType
+from src.models import Scene, Source, SourceType, Clue, ClueType, DeductionLink, UnlockCondition, GameAction, ActionType, GameWorld
 
 def test_scene_model_creation():
     scene = Scene(
@@ -87,3 +87,24 @@ def test_game_action_move():
     )
     assert action.action_type == ActionType.move
     assert action.target_scene_id == "S2"
+
+def test_game_world_creation():
+    world = GameWorld(
+        truth={"凶手": "管家", "凶器": "毒药"},
+        scenes=[
+            Scene(id="S1", name="书房", description="昏暗的书房", connected_scenes=["S2"])
+        ],
+        sources=[
+            Source(id="NPC1", name="管家", type=SourceType.npc, description="管家", scene_id="S2", hidden_clues=["CLUE_1"])
+        ],
+        clues=[
+            Clue(id="CLUE_1", content="线索", clue_type=ClueType.key_clue,
+                 deduction_link=DeductionLink(truth_dimension="凶手", target_value="管家", reasoning="推理"))
+        ],
+        actions=[
+            GameAction(id="A1", name="检查", action_type=ActionType.interact, target_source_id="NPC1")
+        ]
+    )
+    assert world.truth["凶手"] == "管家"
+    assert len(world.scenes) == 1
+    assert len(world.clues) == 1
