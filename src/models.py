@@ -51,6 +51,20 @@ class SourceType(Enum):
     npc = "npc"
     item = "item"
 
+class ClueType(Enum):
+    key_clue = "key_clue"
+    pre_clue = "pre_clue"
+    filler_clue = "filler_clue"
+
+class DeductionLink(BaseModel):
+    truth_dimension: str = Field(..., description="指向的真相维度")
+    target_value: str = Field(..., description="锁定的值")
+    reasoning: str = Field(..., description="推理逻辑说明")
+
+class UnlockCondition(BaseModel):
+    required_clues: List[str] = Field(default_factory=list, description="需要先获得的线索ID列表")
+    reason: str = Field("", description="解锁条件的原因")
+
 class Source(BaseModel):
     id: str = Field(..., description="来源唯一标识符")
     name: str = Field(..., description="NPC或物品名称")
@@ -58,6 +72,13 @@ class Source(BaseModel):
     description: str = Field(..., description="描述")
     scene_id: str = Field(..., description="所属场景ID")
     hidden_clues: List[str] = Field(default_factory=list, description="隐藏的线索ID列表")
+
+class Clue(BaseModel):
+    id: str = Field(..., description="线索唯一标识符")
+    content: str = Field(..., description="线索内容")
+    clue_type: ClueType = Field(..., description="线索类型")
+    deduction_link: Optional[DeductionLink] = Field(None, description="推理链接（仅key_clue有）")
+    unlock_condition: Optional[UnlockCondition] = Field(None, description="解锁条件")
 
 class ExplanationItem(BaseModel):
     truth_dim: str = Field(..., description="对应真相中的维度Key")

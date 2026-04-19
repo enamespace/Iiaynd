@@ -1,5 +1,5 @@
 import pytest
-from src.models import Scene, Source, SourceType
+from src.models import Scene, Source, SourceType, Clue, ClueType, DeductionLink, UnlockCondition
 
 def test_scene_model_creation():
     scene = Scene(
@@ -35,3 +35,31 @@ def test_source_item_creation():
         hidden_clues=["CLUE_KEY_2"]
     )
     assert source.type == SourceType.item
+
+def test_clue_key_clue_creation():
+    clue = Clue(
+        id="CLUE_KEY_1",
+        content="管家手套内侧有毒药残留",
+        clue_type=ClueType.key_clue,
+        deduction_link=DeductionLink(
+            truth_dimension="凶手",
+            target_value="管家",
+            reasoning="手套上有毒药说明管家接触过毒药"
+        ),
+        unlock_condition=None
+    )
+    assert clue.clue_type == ClueType.key_clue
+    assert clue.deduction_link.truth_dimension == "凶手"
+
+def test_clue_pre_clue_with_unlock_condition():
+    clue = Clue(
+        id="CLUE_PRE_1",
+        content="发现管家日记",
+        clue_type=ClueType.pre_clue,
+        deduction_link=None,
+        unlock_condition=UnlockCondition(
+            required_clues=["CLUE_KEY_2"],
+            reason="需要先发现红酒有毒"
+        )
+    )
+    assert clue.unlock_condition.required_clues == ["CLUE_KEY_2"]
