@@ -86,3 +86,4 @@ def test_game_action_move():
         unlock_condition=None
     )
     assert action.action_type == ActionType.move
+    assert action.target_scene_id == "S2"
