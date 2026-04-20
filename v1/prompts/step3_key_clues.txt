@@ -1,0 +1,49 @@
+你的任务是为每个真相维度生成一条关键线索（key_clue）。
+
+故事：{story}
+真相：{truth}
+场景：{scenes}
+
+## 输出要求
+
+输出一个 JSON 对象，包含 key_clues 列表（每个真相维度一条）和可选的 filler_clues。
+
+```json
+{
+  "key_clues": [
+    {
+      "id": "C1",
+      "content": "线索内容（具体描述）",
+      "clue_type": "key_clue",
+      "deduction_link": {
+        "truth_dimension": "凶手",
+        "target_value": "必须与真相中对应维度的值完全一致",
+        "reasoning": "这条线索如何推导出真相"
+      },
+      "unlock_condition": null
+    }
+  ],
+  "filler_clues": [
+    {
+      "id": "C4",
+      "content": "填充线索内容（氛围线索，无推理价值）",
+      "clue_type": "filler_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    }
+  ]
+}
+```
+
+## 关键要求
+
+1. **每个真相维度必须有对应的 key_clue**
+2. **target_value 必须与真相完全一致**
+3. **key_clue 的 deduction_link 不能为空**
+4. **filler_clue 的 deduction_link 必须为 null**
+5. **线索内容要具体，有场景细节**
+
+## 线索类型
+
+- key_clue：直接锁定真相维度
+- filler_clue：填充氛围（可选，最多2条）

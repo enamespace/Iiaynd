@@ -1,0 +1,100 @@
+{
+  "step": "actions",
+  "timestamp": "20260421_001541",
+  "prompt": "你的任务是根据场景和来源生成所有行动。\n\n场景：[{\"id\": \"S1\", \"name\": \"李云峰的卧室\", \"description\": \"冰冷、死寂。厚重的窗帘隔绝了外界纷飞的暴雪。空气中弥漫着血腥和一丝若有若无的茶香。李云峰倒在床边，头部有致命的重创，身旁的青花瓷花瓶已经碎裂。房门从内部反锁，窗户完好无损。桌上，一个喝了一半的茶杯还冒着微弱的余温，杯底似乎有不易察觉的沉淀物。\", \"connected_scenes\": [\"S2\"]}, {\"id\": \"S2\", \"name\": \"云隐山庄客厅\", \"description\": \"山庄的中心，壁炉里的火苗是唯一的温暖来源，却驱不散每个人脸上的寒意和猜忌。李明、李华、李芳、陈律师、张管家和王厨师都聚集在这里，或坐或站，气氛压抑得令人窒息。地上散落着几份关于遗产分配的文件，争吵声和低语声此起彼伏。\", \"connected_scenes\": [\"S1\", \"S3\"]}, {\"id\": \"S3\", \"name\": \"李云峰的书房\", \"description\": \"一个充满旧书和樟脑丸气味的地方。书架上堆满了法律和商业书籍，但一个上锁的抽屉格外显眼。桌上摊开着一份旧的家庭医疗档案，旁边还有几封未拆的信件。这里似乎隐藏着死者不愿示人的过去。\", \"connected_scenes\": [\"S2\"]}]\n来源：[{\"id\": \"ITEM1\", \"name\": \"带有沉淀物的茶杯\", \"type\": \"item\", \"description\": \"在李云峰的卧室（S1）里，床头柜上，一个喝了一半的茶杯还冒着微弱的余温，杯底似乎有不易察觉的白色沉淀物。\", \"scene_id\": \"S1\", \"hidden_clues\": [\"C3\"]}, {\"id\": \"ITEM2\", \"name\": \"被涂改的医疗档案\", \"type\": \"item\", \"description\": \"在李云峰的书房（S3）里，摊开在书桌上，边缘有模糊的指纹。\", \"scene_id\": \"S3\", \"hidden_clues\": [\"C1\"]}, {\"id\": \"ITEM3\", \"name\": \"李华的未寄出信件\", \"type\": \"item\", \"description\": \"在李云峰的书房（S3）里，一个上锁的抽屉被撬开后，信件就放在最上面。\", \"scene_id\": \"S3\", \"hidden_clues\": [\"C2\"]}, {\"id\": \"NPC1\", \"name\": \"陈律师\", \"type\": \"npc\", \"description\": \"一位看起来疲惫不堪的中年男子，头发有些凌乱。他试图保持专业，但焦虑显而易见。他不停地搓着手，偶尔会瞥向门口，仿佛在等待什么。他可能会提供关于遗产纠纷的背景信息，或者对李华的医学背景发表评论。\", \"scene_id\": \"S2\", \"hidden_clues\": []}]\n\n## 输出要求\n\n输出一个 JSON 对象，包含 actions 列表。\n\n```json\n{\n  \"actions\": [\n    {\n      \"id\": \"A1\",\n      \"name\": \"移动到XX\",\n      \"action_type\": \"move\",\n      \"target_scene_id\": \"S2\",\n      \"target_source_id\": null,\n      \"cost\": {\"stamina\": 5},\n      \"unlock_condition\": null\n    },\n    {\n      \"id\": \"A2\",\n      \"name\": \"移动到XX\",\n      \"action_type\": \"move\",\n      \"target_scene_id\": \"S1\",\n      \"target_source_id\": null,\n      \"cost\": {\"stamina\": 5},\n      \"unlock_condition\": null\n    },\n    {\n      \"id\": \"A3\",\n      \"name\": \"与XX交谈\",\n      \"action_type\": \"interact\",\n      \"target_scene_id\": null,\n      \"target_source_id\": \"NPC1\",\n      \"cost\": {\"stamina\": 3},\n      \"unlock_condition\": null\n    },\n    {\n      \"id\": \"A4\",\n      \"name\": \"检查XX\",\n      \"action_type\": \"interact\",\n      \"target_scene_id\": null,\n      \"target_source_id\": \"ITEM1\",\n      \"cost\": {\"stamina\": 2},\n      \"unlock_condition\": null\n    }\n  ]\n}\n```\n\n## 关键要求\n\n1. **移动行动必须双向生成**\n   - 如果 S1 连接 S2，必须生成：从 S1→S2 和从 S2→S1 的移动\n   - 检查每个场景的 connected_scenes，为每条连接生成双向移动\n\n2. **交互行动覆盖所有来源**\n   - 每个 NPC 生成一条\"与XX交谈\"行动\n   - 每个 物品 生成一条\"检查XX\"行动\n\n3. **行动类型只能是 \"move\" 或 \"interact\"**\n4. **move 需要 target_scene_id，interact 需要 target_source_id**\n\n## 行动命名\n\n- 移动：移动到[场景名]\n- NPC交互：与[角色名]交谈\n- 物品交互：检查[物品名]",
+  "system_prompt": "你是推理游戏设计师。生成所有行动：双向移动和交互。",
+  "raw_response": "\n```json\n{\n  \"actions\": [\n    {\n      \"id\": \"A1\",\n      \"name\": \"移动到云隐山庄客厅\",\n      \"action_type\": \"move\",\n      \"target_scene_id\": \"S2\",\n      \"target_source_id\": null,\n      \"cost\": {\"stamina\": 5},\n      \"unlock_condition\": null\n    },\n    {\n      \"id\": \"A2\",\n      \"name\": \"移动到李云峰的卧室\",\n      \"action_type\": \"move\",\n      \"target_scene_id\": \"S1\",\n      \"target_source_id\": null,\n      \"cost\": {\"stamina\": 5},\n      \"unlock_condition\": null\n    },\n    {\n      \"id\": \"A3\",\n      \"name\": \"移动到李云峰的书房\",\n      \"action_type\": \"move\",\n      \"target_scene_id\": \"S3\",\n      \"target_source_id\": null,\n      \"cost\": {\"stamina\": 5},\n      \"unlock_condition\": null\n    },\n    {\n      \"id\": \"A4\",\n      \"name\": \"移动到云隐山庄客厅\",\n      \"action_type\": \"move\",\n      \"target_scene_id\": \"S2\",\n      \"target_source_id\": null,\n      \"cost\": {\"stamina\": 5},\n      \"unlock_condition\": null\n    },\n    {\n      \"id\": \"A5\",\n      \"name\": \"与陈律师交谈\",\n      \"action_type\": \"interact\",\n      \"target_scene_id\": null,\n      \"target_source_id\": \"NPC1\",\n      \"cost\": {\"stamina\": 3},\n      \"unlock_condition\": null\n    },\n    {\n      \"id\": \"A6\",\n      \"name\": \"检查带有沉淀物的茶杯\",\n      \"action_type\": \"interact\",\n      \"target_scene_id\": null,\n      \"target_source_id\": \"ITEM1\",\n      \"cost\": {\"stamina\": 2},\n      \"unlock_condition\": null\n    },\n    {\n      \"id\": \"A7\",\n      \"name\": \"检查被涂改的医疗档案\",\n      \"action_type\": \"interact\",\n      \"target_scene_id\": null,\n      \"target_source_id\": \"ITEM2\",\n      \"cost\": {\"stamina\": 2},\n      \"unlock_condition\": null\n    },\n    {\n      \"id\": \"A8\",\n      \"name\": \"检查李华的未寄出信件\",\n      \"action_type\": \"interact\",\n      \"target_scene_id\": null,\n      \"target_source_id\": \"ITEM3\",\n      \"cost\": {\"stamina\": 2},\n      \"unlock_condition\": null\n    }\n  ]\n}\n```",
+  "parsed_data": {
+    "actions": [
+      {
+        "id": "A1",
+        "name": "移动到云隐山庄客厅",
+        "action_type": "move",
+        "target_scene_id": "S2",
+        "target_source_id": null,
+        "cost": {
+          "stamina": 5
+        },
+        "unlock_condition": null
+      },
+      {
+        "id": "A2",
+        "name": "移动到李云峰的卧室",
+        "action_type": "move",
+        "target_scene_id": "S1",
+        "target_source_id": null,
+        "cost": {
+          "stamina": 5
+        },
+        "unlock_condition": null
+      },
+      {
+        "id": "A3",
+        "name": "移动到李云峰的书房",
+        "action_type": "move",
+        "target_scene_id": "S3",
+        "target_source_id": null,
+        "cost": {
+          "stamina": 5
+        },
+        "unlock_condition": null
+      },
+      {
+        "id": "A4",
+        "name": "移动到云隐山庄客厅",
+        "action_type": "move",
+        "target_scene_id": "S2",
+        "target_source_id": null,
+        "cost": {
+          "stamina": 5
+        },
+        "unlock_condition": null
+      },
+      {
+        "id": "A5",
+        "name": "与陈律师交谈",
+        "action_type": "interact",
+        "target_scene_id": null,
+        "target_source_id": "NPC1",
+        "cost": {
+          "stamina": 3
+        },
+        "unlock_condition": null
+      },
+      {
+        "id": "A6",
+        "name": "检查带有沉淀物的茶杯",
+        "action_type": "interact",
+        "target_scene_id": null,
+        "target_source_id": "ITEM1",
+        "cost": {
+          "stamina": 2
+        },
+        "unlock_condition": null
+      },
+      {
+        "id": "A7",
+        "name": "检查被涂改的医疗档案",
+        "action_type": "interact",
+        "target_scene_id": null,
+        "target_source_id": "ITEM2",
+        "cost": {
+          "stamina": 2
+        },
+        "unlock_condition": null
+      },
+      {
+        "id": "A8",
+        "name": "检查李华的未寄出信件",
+        "action_type": "interact",
+        "target_scene_id": null,
+        "target_source_id": "ITEM3",
+        "cost": {
+          "stamina": 2
+        },
+        "unlock_condition": null
+      }
+    ]
+  },
+  "success": true
+}

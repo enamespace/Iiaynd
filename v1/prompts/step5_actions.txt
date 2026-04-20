@@ -1,0 +1,70 @@
+你的任务是根据场景和来源生成所有行动。
+
+场景：{scenes}
+来源：{sources}
+
+## 输出要求
+
+输出一个 JSON 对象，包含 actions 列表。
+
+```json
+{
+  "actions": [
+    {
+      "id": "A1",
+      "name": "移动到XX",
+      "action_type": "move",
+      "target_scene_id": "S2",
+      "target_source_id": null,
+      "cost": {"stamina": 5},
+      "unlock_condition": null
+    },
+    {
+      "id": "A2",
+      "name": "移动到XX",
+      "action_type": "move",
+      "target_scene_id": "S1",
+      "target_source_id": null,
+      "cost": {"stamina": 5},
+      "unlock_condition": null
+    },
+    {
+      "id": "A3",
+      "name": "与XX交谈",
+      "action_type": "interact",
+      "target_scene_id": null,
+      "target_source_id": "NPC1",
+      "cost": {"stamina": 3},
+      "unlock_condition": null
+    },
+    {
+      "id": "A4",
+      "name": "检查XX",
+      "action_type": "interact",
+      "target_scene_id": null,
+      "target_source_id": "ITEM1",
+      "cost": {"stamina": 2},
+      "unlock_condition": null
+    }
+  ]
+}
+```
+
+## 关键要求
+
+1. **移动行动必须双向生成**
+   - 如果 S1 连接 S2，必须生成：从 S1→S2 和从 S2→S1 的移动
+   - 检查每个场景的 connected_scenes，为每条连接生成双向移动
+
+2. **交互行动覆盖所有来源**
+   - 每个 NPC 生成一条"与XX交谈"行动
+   - 每个 物品 生成一条"检查XX"行动
+
+3. **行动类型只能是 "move" 或 "interact"**
+4. **move 需要 target_scene_id，interact 需要 target_source_id**
+
+## 行动命名
+
+- 移动：移动到[场景名]
+- NPC交互：与[角色名]交谈
+- 物品交互：检查[物品名]

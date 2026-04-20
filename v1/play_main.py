@@ -125,19 +125,14 @@ def main():
             action = actions[idx]
             success, message = engine.execute_action(action.id)
 
-            # 显示结果（短暂停留）
-            clear()
-            print("=" * 60)
-            print(message)
-            print("=" * 60)
-            time.sleep(1.5)
+            # 如果是交互行动且有线索，显示线索内容
+            if action.action_type.value == "interact" and success:
+                interface.set_last_clue(message)
 
             # 检查胜利
             if engine.deduction_engine.check_victory():
                 clear()
                 print(interface.render_victory())
-
-                # 保存结果
                 run_dir = save_run_result(world, state, game_file)
                 print(f"\n结果已保存: {run_dir / 'result.json'}")
                 break

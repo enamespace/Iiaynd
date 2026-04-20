@@ -1,0 +1,178 @@
+{
+  "truth": {
+    "凶手": "李华",
+    "动机": "复仇",
+    "手法": "毒药"
+  },
+  "scenes": [
+    {
+      "id": "S1",
+      "name": "客厅",
+      "description": "山庄的主客厅，壁炉里的火正在燃烧，试图驱散暴风雪带来的严寒。所有幸存者都聚集在这里，气氛凝重而紧张。",
+      "connected_scenes": [
+        "S2",
+        "S3"
+      ]
+    },
+    {
+      "id": "S2",
+      "name": "书房",
+      "description": "李云峰的私人书房，现在成了案发现场。房门从内部反锁，窗户完好无损。地上散落着一个破碎的花瓶，血迹染红了地毯。",
+      "connected_scenes": [
+        "S1"
+      ]
+    },
+    {
+      "id": "S3",
+      "name": "厨房",
+      "description": "山庄的厨房，王厨师正在忙碌地准备食物，但神情不安。各种食材和厨具摆放整齐，但空气中弥漫着不安的气息。",
+      "connected_scenes": [
+        "S1"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "NPC1",
+      "name": "张管家",
+      "type": "npc",
+      "description": "在山庄工作了20年的老管家，对李家忠心耿耿，对山庄里的一切都了如指掌。",
+      "scene_id": "S1",
+      "hidden_clues": [
+        "C1"
+      ]
+    },
+    {
+      "id": "NPC2",
+      "name": "王厨师",
+      "type": "npc",
+      "description": "刚来山庄半年的厨师，对山庄的布局和主人的习惯还不太熟悉，显得有些局促。",
+      "scene_id": "S3",
+      "hidden_clues": [
+        "C2"
+      ]
+    },
+    {
+      "id": "NPC3",
+      "name": "李华",
+      "type": "npc",
+      "description": "死者的次子，一名医生。他看起来冷静，但眼神中隐藏着一丝难以察觉的紧张。",
+      "scene_id": "S1",
+      "hidden_clues": [
+        "C3"
+      ]
+    },
+    {
+      "id": "ITEM1",
+      "name": "破碎的花瓶",
+      "type": "item",
+      "description": "一个青花瓷花瓶，在书房的地上摔得粉碎，其中一片较大的碎片上沾有血迹，被认为是凶器。",
+      "scene_id": "S2",
+      "hidden_clues": [
+        "C5"
+      ]
+    }
+  ],
+  "clues": [
+    {
+      "id": "C1",
+      "content": "张管家提到，李华曾私下质问过李云峰，为什么母亲去世前没有接受最好的治疗，并暗示他永远不会原谅父亲。",
+      "clue_type": "pre_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "C2",
+      "content": "王厨师回忆说，李云峰在晚餐后习惯喝一杯特定的安神茶，而李华主动提出要为他‘准备’这杯茶。",
+      "clue_type": "pre_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "C3",
+      "content": "李华在案发时声称自己在房间里研究医学文献，但他的手在发抖，并且他身上有淡淡的化学药品气味。",
+      "clue_type": "key_clue",
+      "deduction_link": {
+        "truth_dimension": "凶手",
+        "target_value": "李华",
+        "reasoning": "李华的异常行为（手抖、化学药品气味）与下毒手法的医学性质相符，使其成为最可疑的人。"
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "C4",
+      "content": "陈律师透露，李云峰的遗嘱中有一项条款，如果李华从事医学事业，他将被完全排除在遗产继承之外，这加剧了家庭矛盾。",
+      "clue_type": "filler_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "C5",
+      "content": "法医初步检查发现，李云峰体内含有一种罕见的、需要专业医学知识才能配制的慢性神经毒素。致命伤是头部的重击，但毒素才是真正的死因。",
+      "clue_type": "key_clue",
+      "deduction_link": {
+        "truth_dimension": "手法",
+        "target_value": "毒药",
+        "reasoning": "死者体内的罕见毒素表明，凶手具备专业的医学知识，这与李华作为医生的身份相符，并证明下毒是主要手法。"
+      },
+      "unlock_condition": null
+    }
+  ],
+  "actions": [
+    {
+      "id": "A1",
+      "name": "移动到书房",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "S2",
+      "cost": {
+        "stamina": 5
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "A2",
+      "name": "移动到厨房",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "S3",
+      "cost": {
+        "stamina": 5
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "A3",
+      "name": "与张管家交谈",
+      "action_type": "interact",
+      "target_source_id": "NPC1",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 3
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "A4",
+      "name": "与王厨师交谈",
+      "action_type": "interact",
+      "target_source_id": "NPC2",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 3
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "A5",
+      "name": "检查破碎的花瓶",
+      "action_type": "interact",
+      "target_source_id": "ITEM1",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 2
+      },
+      "unlock_condition": null
+    }
+  ]
+}

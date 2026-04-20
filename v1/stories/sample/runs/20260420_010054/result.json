@@ -1,0 +1,22 @@
+{
+  "truth": {
+    "凶手": "管家",
+    "凶器": "毒药"
+  },
+  "collected_clues": [
+    "CLUE_KEY_2",
+    "CLUE_KEY_1"
+  ],
+  "locked_dimensions": {
+    "凶手": "管家",
+    "凶器": "毒药"
+  },
+  "executed_actions": [
+    "A1",
+    "A2",
+    "A3",
+    "A4"
+  ],
+  "final_stamina": 60,
+  "victory": true
+}

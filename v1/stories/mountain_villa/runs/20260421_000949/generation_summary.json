@@ -1,0 +1,43 @@
+{
+  "steps": [
+    {
+      "name": "truth",
+      "timestamp": "20260421_001039",
+      "success": true,
+      "error": null
+    },
+    {
+      "name": "scenes",
+      "timestamp": "20260421_001222",
+      "success": true,
+      "error": null
+    },
+    {
+      "name": "key_clues",
+      "timestamp": "20260421_001414",
+      "success": true,
+      "error": null
+    },
+    {
+      "name": "sources",
+      "timestamp": "20260421_001541",
+      "success": true,
+      "error": null
+    },
+    {
+      "name": "actions",
+      "timestamp": "20260421_001659",
+      "success": true,
+      "error": null
+    }
+  ],
+  "total_steps": 5,
+  "successful_steps": 5,
+  "log_files": [
+    "stories/mountain_villa/runs/20260421_000949/logs/truth_20260421_001039.json",
+    "stories/mountain_villa/runs/20260421_000949/logs/scenes_20260421_001222.json",
+    "stories/mountain_villa/runs/20260421_000949/logs/key_clues_20260421_001414.json",
+    "stories/mountain_villa/runs/20260421_000949/logs/sources_20260421_001541.json",
+    "stories/mountain_villa/runs/20260421_000949/logs/actions_20260421_001659.json"
+  ]
+}

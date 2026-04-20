@@ -6,6 +6,11 @@ class CLIInterface:
         self.world = world
         self.state = state
         self.engine = GameEngine(world, state)
+        self.last_clue_content = None  # 最近获得的线索
+
+    def set_last_clue(self, clue_content: str):
+        """设置最近获得的线索内容"""
+        self.last_clue_content = clue_content
 
     def render_scene(self) -> str:
         """渲染当前场景"""
@@ -29,6 +34,18 @@ class CLIInterface:
         lines.append(f"体力: {self.state.stamina}")
         return "\n".join(lines)
 
+    def render_last_clue(self) -> str:
+        """渲染最近获得的线索"""
+        if not self.last_clue_content:
+            return ""
+        lines = [
+            "【最近获得线索】",
+            self.last_clue_content,
+            ""
+        ]
+        self.last_clue_content = None  # 显示后清空
+        return "\n".join(lines)
+
     def render_actions(self) -> str:
         """渲染可用行动"""
         actions = self.engine.get_available_actions()
@@ -40,14 +57,21 @@ class CLIInterface:
 
     def render_full_display(self) -> str:
         """渲染完整界面"""
-        return "\n".join([
+        parts = [
             self.render_scene(),
             self.render_status(),
             "=" * 60,
+        ]
+        # 如果有最近获得的线索，显示它
+        last_clue = self.render_last_clue()
+        if last_clue:
+            parts.append(last_clue)
+        parts.extend([
             self.render_actions(),
             "=" * 60,
             "请输入选择: "
         ])
+        return "\n".join(parts)
 
     def render_evidence(self) -> str:
         """渲染已收集证据"""

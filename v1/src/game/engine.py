@@ -28,16 +28,22 @@ class GameEngine:
         scene_sources = self.get_sources_in_current_scene()
 
         available = []
+        seen_move_targets = set()  # 用于去重移动行动
+
         for action in self.world.actions:
-            # 移动行动：目标场景必须是当前场景的连接场景
+            # 移动行动：目标场景必须是当前场景的连接场景，且去重
             if action.action_type == ActionType.move:
                 if action.target_scene_id in current_scene.connected_scenes:
-                    available.append(action)
+                    if action.target_scene_id not in seen_move_targets:
+                        seen_move_targets.add(action.target_scene_id)
+                        available.append(action)
 
-            # 交互行动：目标来源必须在当前场景
+            # 交互行动：目标来源必须在当前场景，且去重
             elif action.action_type == ActionType.interact:
                 if action.target_source_id in [s.id for s in scene_sources]:
-                    available.append(action)
+                    # 检查是否已经有相同 target_source_id 的行动
+                    if not any(a.target_source_id == action.target_source_id for a in available):
+                        available.append(action)
 
         return available
 
