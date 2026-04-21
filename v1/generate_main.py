@@ -61,10 +61,11 @@ def generate_game_world(llm: ZhipuLLMClient, story_prompt: str) -> GameWorld:
     prompt = template.replace("{story}", story_prompt)
 
     logger.info("Generating game world...")
-    content = llm.call(
+    response = llm.call(
         prompt=prompt,
         system_prompt="你是一位专业的推理游戏设计师。请根据故事内容生成具体的游戏世界数据。直接输出 JSON 数据对象，不要输出 Schema 定义或添加任何说明文字。"
     )
+    content = response.content
 
     # 清洗可能的 Markdown 代码块
     cleaned = content.strip()

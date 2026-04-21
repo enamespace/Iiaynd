@@ -4,7 +4,7 @@
 
 分步骤生成，每步保存日志，更可控可调试。
 
-用法：python generate_progressive.py <story_name> [--skip-enrich]
+用法：python generate_progressive.py <story_name>
 """
 
 import sys
@@ -39,6 +39,8 @@ def main():
     parser.add_argument("story_name", help="故事名称")
     args = parser.parse_args()
 
+    overall_start_time = time.time()
+
     try:
         story = load_story(args.story_name)
         logger.info(f"Loaded: stories/{args.story_name}/story.txt")
@@ -50,7 +52,7 @@ def main():
 
         # 初始化生成器
         llm = ZhipuLLMClient()
-        generator = ProgressiveGenerator(llm, run_dir)
+        generator = ProgressiveGenerator(llm, run_id=timestamp, story_name=args.story_name, run_dir=run_dir)
 
         # Step 1: 生成真相
         logger.info("=== Step 1: 生成真相 ===")
@@ -79,20 +81,28 @@ def main():
 
         # 整合生成 GameWorld
         logger.info("=== 整合游戏世界 ===")
-        world = generator.build_game_world()
+        world, valid, errors = generator.build_game_world()
 
         # 保存结果
         world_file = run_dir / "game_world.json"
         world_file.write_text(world.model_dump_json(indent=2), encoding="utf-8")
         logger.info(f"GameWorld saved: {world_file}")
 
-        # 保存生成摘要
-        generator.save_summary()
+        # 保存日志
+        log_file = generator.finalize_log(
+            output_file=str(world_file),
+            final_validation_passed=valid,
+            final_validation_errors=errors
+        )
+
+        # 计算总耗时
+        overall_duration = time.time() - overall_start_time
 
         # 打印结果
         print(f"\n✅ Generated: {run_dir}")
         print(f"   Scenes: {len(world.scenes)}, Sources: {len(world.sources)}, Clues: {len(world.clues)}, Actions: {len(world.actions)}")
-        print(f"   Logs: {generator.log_dir}")
+        print(f"   Total Duration: {overall_duration:.2f}s")
+        print(f"   Log: {log_file}")
         print(f"\n   Play: python play_main.py {world_file}")
 
     except Exception as e:

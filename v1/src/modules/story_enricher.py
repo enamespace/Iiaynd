@@ -30,10 +30,11 @@ class StoryEnricher:
         prompt = template.replace("{story}", story_prompt)
 
         logger.info("Enriching story...")
-        content = self.llm.call(
+        response = self.llm.call(
             prompt=prompt,
             system_prompt="你是一位专业的推理小说作家。擅长创作悬疑、紧凑、逻辑严密的推理故事。请严格按照 JSON 格式输出，不要添加任何额外的文字说明。"
         )
+        content = response.content
 
         # 清洗 Markdown 代码块
         cleaned = content.strip()
