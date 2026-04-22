@@ -6,10 +6,19 @@
 
 ```
 v1/
-├── generate_main.py      # 生成器入口
-├── play_main.py          # 游戏入口（单页面刷新）
+├── generate.py           # 生成器入口
+├── generate_progressive.py  # 渐进式生成器
+├── play.py               # 游戏入口（单页面刷新）
+├── requirements.txt      # 依赖列表
+├── .env.example          # 环境变量示例
 ├── prompts/
-│   └── game_world_generator.txt  # LLM 提示词模板
+│   ├── game_world_generator.txt  # LLM 提示词模板
+│   ├── step1_truth.txt    # 渐进式：真相
+│   ├── step2_scenes.txt   # 渐进式：场景
+│   ├── step3_key_clues.txt  # 渐进式：关键线索
+│   ├── step4_sources.txt  # 渐进式：来源
+│   ├── step5_actions.txt  # 渐进式：行动
+│   └── story_enricher.txt  # 故事丰富化
 ├── src/
 │   ├── models.py         # 数据模型
 │   ├── llm_client.py     # LLM 客户端
@@ -18,10 +27,12 @@ v1/
 │   │   ├── clue_manager.py
 │   │   ├── deduction_engine.py
 │   │   └── cli_interface.py
-│   └── modules/
-│       └── world_validator.py  # 验证器
+│   └── generators/
+│       ├── enricher.py   # 故事丰富化
+│       ├── progressive.py  # 渐进式生成器
+│       └── validator.py  # 世界验证器
 ├── stories/
-│   └── sample/           # 样例游戏
+│   └── island/           # 样例游戏
 └── tests/                # 测试文件
 ```
 
@@ -30,7 +41,11 @@ v1/
 ### 1. 生成游戏世界
 
 ```bash
-python generate_main.py <story_name>
+# 单次生成
+python generate.py <story_name>
+
+# 渐进式生成（分步骤，每步保存日志）
+python generate_progressive.py <story_name>
 
 # 结果保存到: stories/<story_name>/runs/<timestamp>/game_world.json
 ```
@@ -38,13 +53,13 @@ python generate_main.py <story_name>
 ### 2. 运行游戏
 
 ```bash
-python play_main.py stories/<story_name>/runs/<timestamp>/game_world.json
+python play.py stories/<story_name>/runs/<timestamp>/game_world.json
 ```
 
 ### 3. 创建新游戏
 
 1. 创建 `stories/<新游戏>/story.txt`，写入故事提示词
-2. 运行 `python generate_main.py <新游戏>`
+2. 运行 `python generate.py <新游戏>`
 3. 运行生成的 JSON 文件开始游戏
 
 ## 核心概念

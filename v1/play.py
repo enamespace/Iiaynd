@@ -4,8 +4,8 @@
 
 单页面刷新式界面，结果保存到 runs 目录
 
-用法：python play_main.py <game_world.json>
-示例：python play_main.py stories/island/runs/20260420_100000/game_world.json
+用法：python play.py <game_world.json>
+示例：python play.py stories/island/runs/20260420_100000/game_world.json
 """
 
 import json
@@ -48,8 +48,12 @@ def save_run_result(world: GameWorld, state: PlayerState, game_file: str):
     story_name = parts[1] if len(parts) > 1 else "unknown"
 
     timestamp = time.strftime("%Y%m%d_%H%M%S")
-    run_dir = Path(f"stories/{story_name}/runs/{timestamp}")
+    run_dir = Path(f"stories/{story_name}/runs/play_{timestamp}")
     run_dir.mkdir(parents=True, exist_ok=True)
+
+    # 复制游戏世界文件到游玩目录
+    import shutil
+    shutil.copy(game_file, run_dir / "game_world.json")
 
     # 保存结果
     result = {
@@ -69,8 +73,8 @@ def save_run_result(world: GameWorld, state: PlayerState, game_file: str):
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python play_main.py <game_world.json>")
-        print("Example: python play_main.py stories/island/runs/xxx/game_world.json")
+        print("Usage: python play.py <game_world.json>")
+        print("Example: python play.py stories/island/runs/xxx/game_world.json")
         sys.exit(1)
 
     game_file = sys.argv[1]

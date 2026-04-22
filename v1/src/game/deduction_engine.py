@@ -1,20 +1,14 @@
-from typing import Tuple, Optional
-from ..models import GameWorld, PlayerState, Clue, ClueType
+from typing import Tuple
+from ..models import World, PlayerState, Clue, ClueType
 
 class DeductionEngine:
-    def __init__(self, world: GameWorld, state: PlayerState):
+    def __init__(self, world: World, state: PlayerState):
         self.world = world
         self.state = state
 
-    def get_clue_by_id(self, clue_id: str) -> Clue | None:
-        for clue in self.world.clues:
-            if clue.id == clue_id:
-                return clue
-        return None
-
-    def process_clue(self, clue_id: str) -> Tuple[Optional[str], Optional[str]]:
+    def process_clue(self, clue_id: str) -> Tuple[str | None, str | None]:
         """处理线索，如果是key_clue则锁定对应维度"""
-        clue = self.get_clue_by_id(clue_id)
+        clue = self.world.get_clue_by_id(clue_id)
         if clue is None:
             return None, None
 

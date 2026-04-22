@@ -12,7 +12,7 @@
 {
   "key_clues": [
     {
-      "id": "C1",
+      "id": "clue_1",
       "content": "线索内容（具体描述）",
       "clue_type": "key_clue",
       "deduction_link": {
@@ -25,7 +25,7 @@
   ],
   "filler_clues": [
     {
-      "id": "C4",
+      "id": "clue_4",
       "content": "填充线索内容（氛围线索，无推理价值）",
       "clue_type": "filler_clue",
       "deduction_link": null,

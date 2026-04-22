@@ -12,20 +12,20 @@
 {
   "sources": [
     {
-      "id": "NPC1",
+      "id": "npc_1",
       "name": "角色名称",
       "type": "npc",
       "description": "角色描述（外貌、性格、行为）",
-      "scene_id": "S1",
-      "hidden_clues": ["C1"]
+      "scene_id": "scene_1",
+      "hidden_clues": ["clue_1"]
     },
     {
-      "id": "ITEM1",
+      "id": "item_1",
       "name": "物品名称",
       "type": "item",
       "description": "物品描述",
-      "scene_id": "S2",
-      "hidden_clues": ["C2"]
+      "scene_id": "scene_2",
+      "hidden_clues": ["clue_2"]
     }
   ]
 }

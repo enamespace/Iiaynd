@@ -17,7 +17,7 @@ class Character(BaseModel):
     relationship: str = Field(..., description="与死者/事件的关系")
 
 
-class SceneDraft(BaseModel):
+class SceneInfo(BaseModel):
     name: str = Field(..., description="场景名称")
     description: str = Field(..., description="场景详细描述")
 
@@ -29,7 +29,7 @@ class EventDetail(BaseModel):
     details: str = Field(..., description="事件细节描述")
 
 
-class TruthDraft(BaseModel):
+class TruthInfo(BaseModel):
     culprit: str = Field(..., description="真相：谁做的")
     method: str = Field(..., description="真相：怎么做的")
     motive: str = Field(..., description="真相：为什么")
@@ -39,9 +39,9 @@ class EnrichedStory(BaseModel):
     title: str = Field(..., description="故事标题")
     background: str = Field(..., description="故事背景设定")
     characters: List[Character] = Field(default_factory=list, description="角色列表")
-    scenes: List[SceneDraft] = Field(default_factory=list, description="场景列表")
+    scenes: List[SceneInfo] = Field(default_factory=list, description="场景列表")
     event: EventDetail = Field(..., description="事件详情")
-    truth: TruthDraft = Field(..., description="真相")
+    truth: TruthInfo = Field(..., description="真相")
     red_herrings: List[str] = Field(default_factory=list, description="误导性线索")
     atmosphere: str = Field(..., description="整体氛围")
 
@@ -93,26 +93,58 @@ class Clue(BaseModel):
     id: str = Field(..., description="线索唯一标识符")
     content: str = Field(..., description="线索内容")
     clue_type: ClueType = Field(..., description="线索类型")
-    deduction_link: Optional[DeductionLink] = Field(None, description="推理链接（仅key_clue有）")
-    unlock_condition: Optional[UnlockCondition] = Field(None, description="解锁条件")
+    deduction_link: DeductionLink | None = Field(None, description="推理链接（仅key_clue有）")
+    unlock_condition: UnlockCondition | None = Field(None, description="解锁条件")
 
 
-class GameAction(BaseModel):
+class Action(BaseModel):
     id: str = Field(..., description="行动唯一标识符")
     name: str = Field(..., description="行动名称")
     action_type: ActionType = Field(..., description="行动类型")
-    target_source_id: Optional[str] = Field(None, description="交互目标来源ID（interact类型）")
-    target_scene_id: Optional[str] = Field(None, description="目标场景ID（move类型）")
+    target_source_id: str | None = Field(None, description="交互目标来源ID（interact类型）")
+    target_scene_id: str | None = Field(None, description="目标场景ID（move类型）")
     cost: Dict[str, int] = Field(default_factory=dict, description="行动代价")
-    unlock_condition: Optional[UnlockCondition] = Field(None, description="解锁条件")
+    unlock_condition: UnlockCondition | None = Field(None, description="解锁条件")
 
 
-class GameWorld(BaseModel):
+class World(BaseModel):
     truth: Dict[str, str] = Field(..., description="真相字典")
     scenes: List[Scene] = Field(default_factory=list, description="场景列表")
     sources: List[Source] = Field(default_factory=list, description="来源列表（NPC/物品）")
     clues: List[Clue] = Field(default_factory=list, description="线索列表")
-    actions: List[GameAction] = Field(default_factory=list, description="行动列表")
+    actions: List[Action] = Field(default_factory=list, description="行动列表")
+
+    def get_scene_by_id(self, scene_id: str) -> Scene | None:
+        """根据ID获取场景"""
+        for scene in self.scenes:
+            if scene.id == scene_id:
+                return scene
+        return None
+
+    def get_source_by_id(self, source_id: str) -> Source | None:
+        """根据ID获取来源"""
+        for source in self.sources:
+            if source.id == source_id:
+                return source
+        return None
+
+    def get_clue_by_id(self, clue_id: str) -> Clue | None:
+        """根据ID获取线索"""
+        for clue in self.clues:
+            if clue.id == clue_id:
+                return clue
+        return None
+
+    def get_action_by_id(self, action_id: str) -> Action | None:
+        """根据ID获取行动"""
+        for action in self.actions:
+            if action.id == action_id:
+                return action
+        return None
+
+
+# Backward compatibility alias
+GameWorld = World
 
 
 class PlayerState(BaseModel):
@@ -120,7 +152,7 @@ class PlayerState(BaseModel):
     collected_clues: List[str] = Field(default_factory=list, description="已收集的线索ID列表")
     executed_actions: List[str] = Field(default_factory=list, description="已执行的行动ID列表")
     stamina: int = Field(100, description="体力值")
-    locked_dimensions: Dict[str, Optional[str]] = Field(default_factory=dict, description="已锁定的真相维度")
+    locked_dimensions: Dict[str, str | None] = Field(default_factory=dict, description="已锁定的真相维度")
 
     def lock_dimension(self, dimension: str, value: str):
         """锁定一个真相维度"""
@@ -129,3 +161,9 @@ class PlayerState(BaseModel):
     def is_all_locked(self) -> bool:
         """检查是否所有维度都已锁定"""
         return all(v is not None for v in self.locked_dimensions.values())
+
+
+# Backward compatibility aliases
+SceneDraft = SceneInfo
+TruthDraft = TruthInfo
+GameAction = Action

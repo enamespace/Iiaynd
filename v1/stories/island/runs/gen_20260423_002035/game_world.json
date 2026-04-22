@@ -1,0 +1,238 @@
+{
+  "truth": {
+    "凶手": "亚瑟·彭德尔顿",
+    "动机": "复仇",
+    "手法": "利用秘密通道勒死"
+  },
+  "scenes": [
+    {
+      "id": "scene_1",
+      "name": "主厅",
+      "description": "庄园的中心，巨大的吊灯在风中摇晃，光线昏暗。壁炉里的火苗在狂风中摇曳。所有幸存者都聚集在这里，气氛紧张而沉默。尸体就是在这里被发现的，现场已被初步保护起来。",
+      "connected_scenes": [
+        "scene_2",
+        "scene_3"
+      ]
+    },
+    {
+      "id": "scene_2",
+      "name": "书房",
+      "description": "埃莉诺的私人空间，门从内部反锁。房间里堆满了书籍和文件，空气中有一股淡淡的香水味。尸体躺在地毯上，脖子上勒着一条独特的丝质领巾。书桌上有一封未写完的信，旁边放着一杯已经冷掉的茶。",
+      "connected_scenes": [
+        "scene_1",
+        "scene_3"
+      ]
+    },
+    {
+      "id": "scene_3",
+      "name": "地牢",
+      "description": "庄园地下一个潮湿、阴暗的房间，墙壁上挂着生锈的刑具。这里有一个秘密通道，可以直接通向书房的壁炉。",
+      "connected_scenes": [
+        "scene_1",
+        "scene_2"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "npc_1",
+      "name": "亚瑟·彭德尔顿",
+      "type": "npc",
+      "description": "一位前战地记者，因在战争中目睹了太多惨剧而患上了严重的创伤后应激障碍（PTSD），并发展出了第二人格“杰克”。他受邀来到黑石庄园，名义上是来撰写一本关于这座庄园历史的书，实际上是来调查自己已故战友的未婚妻——庄园女主人埃莉诺·万斯。他外表冷静，但眼神中时常流露出不安和痛苦。他随身携带一个老旧的怀表，只有在极度紧张时才会无意识地摩挲它。",
+      "scene_id": "scene_1",
+      "hidden_clues": [
+        "clue_1"
+      ]
+    },
+    {
+      "id": "npc_2",
+      "name": "塞拉斯·格雷",
+      "type": "npc",
+      "description": "在黑石庄园服务了四十年的老管家，沉默寡言，对庄园的历史和秘密了如指掌。他对埃莉诺的统治感到极度不满，认为她玷污了庄园的荣誉。他行动稳健，但手指上有一道旧伤疤，据说是在年轻时为了保护庄园而留下的。",
+      "scene_id": "scene_1",
+      "hidden_clues": [
+        "clue_3"
+      ]
+    },
+    {
+      "id": "item_1",
+      "name": "亚瑟的行李箱",
+      "type": "item",
+      "description": "一个老旧的皮质行李箱，上面有军队的徽章。里面装着亚瑟的私人物品，包括几件换洗衣物和一些文件。",
+      "scene_id": "scene_1",
+      "hidden_clues": [
+        "clue_2"
+      ]
+    },
+    {
+      "id": "item_2",
+      "name": "地牢壁炉",
+      "type": "item",
+      "description": "一个布满灰尘的壁炉，位于地牢的角落。炉膛里似乎有什么东西。",
+      "scene_id": "scene_3",
+      "hidden_clues": [
+        "clue_3"
+      ]
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_1",
+      "content": "在亚瑟的行李箱里发现了一本关于创伤后应激障碍（PTSD）和多重人格的旧医学笔记，其中详细记录了亚瑟如何发展出第二人格“杰克”来应对战争创伤。笔记中提到，“杰克”人格在极端压力下会接管身体，并执行一些亚瑟本人无法控制的行动。",
+      "clue_type": "key_clue",
+      "deduction_link": {
+        "truth_dimension": "凶手",
+        "target_value": "亚瑟·彭德尔顿",
+        "reasoning": "笔记揭示了亚瑟患有PTSD和第二人格“杰克”，这表明他可能在无意识状态下，被“杰克”人格控制而犯下了罪行。"
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_2",
+      "content": "在亚瑟的行李箱夹层中，发现了一本他已故战友的日记。日记中详细记录了埃莉诺如何为了嫁给富有的年长男人，无情地抛弃了他，导致他心碎自杀。日记的最后一页，是亚瑟写下的誓言：“我必将为我的兄弟讨回公道，让那个女人付出代价。”",
+      "clue_type": "key_clue",
+      "deduction_link": {
+        "truth_dimension": "动机",
+        "target_value": "复仇",
+        "reasoning": "日记详细记录了埃莉诺对战友的背叛，以及亚瑟为此立下的复仇誓言，这构成了明确的作案动机。"
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_3",
+      "content": "从地牢壁炉的炉膛深处，发现了一小块布料，上面沾有书房地毯的纤维，同时布料缝隙里嵌着与地牢墙壁一致的潮湿灰尘。这表明有人通过地牢的秘密通道进入了书房。",
+      "clue_type": "key_clue",
+      "deduction_link": {
+        "truth_dimension": "手法",
+        "target_value": "利用秘密通道勒死",
+        "reasoning": "布料上的书房地毯纤维和地牢灰尘成分，证明凶手通过地牢的秘密通道进入了书房，实施了犯罪。"
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_4",
+      "content": "在莉莉安的房间里发现了一封催款信，显示她急需用钱，有谋财害命的动机。",
+      "clue_type": "pre_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_5",
+      "content": "管家塞拉斯的口袋里有一把书房的旧钥匙，他声称是以前配的，但无法解释为何会带在身上。",
+      "clue_type": "pre_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_6",
+      "content": "医生索恩的药箱里发现了一种罕见的镇静剂，与埃莉诺的死亡症状有相似之处。",
+      "clue_type": "pre_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_7",
+      "content": "老朋友奥古斯都的袖口上有一根不属于他的金色长发，似乎是埃莉诺的。",
+      "clue_type": "pre_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_8",
+      "content": "在书房的废纸篓里发现了一封被撕碎的、内容涉及威胁的信，笔迹像是塞拉斯的。",
+      "clue_type": "pre_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    }
+  ],
+  "actions": [
+    {
+      "id": "action_1",
+      "name": "移动到书房",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "scene_2",
+      "cost": {
+        "stamina": 5
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_2",
+      "name": "从书房移动到主厅",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "scene_1",
+      "cost": {
+        "stamina": 5
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_3",
+      "name": "移动到地牢",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "scene_3",
+      "cost": {
+        "stamina": 10
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_4",
+      "name": "从地牢移动到主厅",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "scene_1",
+      "cost": {
+        "stamina": 10
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_5",
+      "name": "与亚瑟·彭德尔顿交谈",
+      "action_type": "interact",
+      "target_source_id": "npc_1",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 3
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_6",
+      "name": "检查亚瑟的行李箱",
+      "action_type": "interact",
+      "target_source_id": "item_1",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 2
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_7",
+      "name": "与塞拉斯·格雷交谈",
+      "action_type": "interact",
+      "target_source_id": "npc_2",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 3
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_8",
+      "name": "检查地牢壁炉",
+      "action_type": "interact",
+      "target_source_id": "item_2",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 2
+      },
+      "unlock_condition": null
+    }
+  ]
+}

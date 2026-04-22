@@ -1,0 +1,259 @@
+{
+  "truth": {
+    "凶手": "阿夜",
+    "动机": "陈教授的激进治疗正在摧毁林默的人格，阿夜视陈教授为痛苦的根源，认为必须消灭他才能“解放”林默",
+    "手法": "阿夜在林默意识薄弱时接管身体，用陈教授书桌上的古董匕首刺杀了陈教授，并伪造了现场"
+  },
+  "scenes": [
+    {
+      "id": "scene_1",
+      "name": "客厅",
+      "description": "别墅的客厅，巨大的落地窗外是狂风暴雨。壁炉里的火光在四人的脸上投下摇曳的影子，空气中弥漫着紧张和不安。这里是暴风雨之夜众人聚集的地方。",
+      "connected_scenes": [
+        "scene_2",
+        "scene_3"
+      ]
+    },
+    {
+      "id": "scene_2",
+      "name": "血色书房",
+      "description": "陈教授的书房，位于别墅二层。房门虚掩，从门缝中透出微弱的光。书房内，陈教授倒在书桌前的地毯上，胸口插着一把锋利的古董匕首。书桌上散落着文件，其中一张纸上写着潦草的“我错了”，旁边是一杯打翻的咖啡，咖啡渍已经干涸。整个房间被一种死寂笼罩。",
+      "connected_scenes": [
+        "scene_1"
+      ]
+    },
+    {
+      "id": "scene_3",
+      "name": "林默的实验室",
+      "description": "别墅地下室的心理学实验室。这里布满了精密的仪器，墙上挂着各种脑电图和人格分析图表。一个玻璃柜中，陈列着各种药物和实验记录。其中一本锁住的日记，记录着林默治疗过程中的痛苦与挣扎，是解开谜团的关键。",
+      "connected_scenes": [
+        "scene_1"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "npc_1",
+      "name": "林默",
+      "type": "npc",
+      "description": "28岁，才华横溢但性格孤僻的心理学家。戴着金丝边眼镜，总是穿着整洁的衬衫，习惯性地扶眼镜。他因童年创伤而患有分离性身份识别障碍（DID），拥有两个主要人格：冷静理智的“林默”和冲动、充满攻击性的“阿夜”。",
+      "scene_id": "scene_1",
+      "hidden_clues": [
+        "clue_1"
+      ]
+    },
+    {
+      "id": "npc_2",
+      "name": "老王",
+      "type": "npc",
+      "description": "55岁，在雾隐岛工作多年的管家。沉默寡言，对别墅的每一个角落都了如指掌。他身材瘦削，眼神中总是带着一丝不易察觉的怨毒。他似乎知道岛上许多不为人知的秘密，包括陈教授的一些不光彩的研究手段。",
+      "scene_id": "scene_1",
+      "hidden_clues": [
+        "clue_4"
+      ]
+    },
+    {
+      "id": "npc_3",
+      "name": "苏晴",
+      "type": "npc",
+      "description": "22岁，年轻漂亮的护士。她看起来天真烂漫，但眼神中偶尔会闪过一丝不安和恐惧。她被陈教授的才华和地位所吸引，但对他的研究内容感到恐惧。她似乎在暗中收集陈教授的罪证，并试图与外界联系。",
+      "scene_id": "scene_1",
+      "hidden_clues": [
+        "clue_5"
+      ]
+    },
+    {
+      "id": "item_1",
+      "name": "陈教授的书桌",
+      "type": "item",
+      "description": "位于血色书房内，是案发现场。上面散落着文件，还有一杯打翻的咖啡和一封看似遗书的纸条。书桌抽屉里可能藏着更多线索。",
+      "scene_id": "scene_2",
+      "hidden_clues": [
+        "clue_3",
+        "clue_6"
+      ]
+    },
+    {
+      "id": "item_2",
+      "name": "林默的实验室日记",
+      "type": "item",
+      "description": "锁在地下室实验室玻璃柜中的日记本。记录了林默在治疗过程中的痛苦与挣扎，是解开谜团的关键。",
+      "scene_id": "scene_3",
+      "hidden_clues": [
+        "clue_1",
+        "clue_2"
+      ]
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_1",
+      "content": "实验室日记中记录了林默在案发当晚经历了一次剧烈的人格转换，并描述了“阿夜”接管身体时的感觉，以及他模糊地记得自己走向书房的冲动。日记中还提到“阿夜”视陈教授为“恶魔”。",
+      "clue_type": "key_clue",
+      "deduction_link": {
+        "truth_dimension": "凶手",
+        "target_value": "阿夜",
+        "reasoning": "实验室日记明确指出，在案发当晚，林默的第二重人格“阿夜”接管了身体，并且对陈教授怀有强烈的杀意，这直接指向他就是凶手。"
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_2",
+      "content": "在尘封的图书馆里发现的陈教授写给神秘机构的信中，他提到林默的“整合”实验即将成功，但需要“清除”掉“不稳定的人格碎片”，这证实了陈教授对林默的迫害意图。",
+      "clue_type": "key_clue",
+      "deduction_link": {
+        "truth_dimension": "动机",
+        "target_value": "陈教授的激进治疗正在摧毁林默的人格，阿夜视陈教授为痛苦的根源，认为必须消灭他才能“解放”林默",
+        "reasoning": "陈教授的信件揭示了其“整合”实验的真实目的——清除林默的人格，这为阿夜认为陈教授是痛苦的根源、必须被消灭的动机提供了确凿证据。"
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_3",
+      "content": "对凶器古董匕首的进一步检查发现，除了死者的血迹外，刀柄上有一层极淡的、非林默（第一重人格）的指纹，这种指纹与林默（第一重人格）的日常物品接触习惯不符，更像是“阿夜”这种充满力量感的人格在情绪激动时留下的痕迹。",
+      "clue_type": "key_clue",
+      "deduction_link": {
+        "truth_dimension": "手法",
+        "target_value": "阿夜在林默意识薄弱时接管身体，用陈教授书桌上的古董匕首刺杀了陈教授，并伪造了现场",
+        "reasoning": "凶器上的非林默（第一重人格）指纹，结合案发时林默的记忆空白，证明是另一人格“阿夜”在接管身体后，使用了书房内的凶器行凶。"
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_4",
+      "content": "有目击者称，案发前曾看到老王在书房外徘徊，并且他的旧工具箱里发现了一把与凶器相似的旧匕首。",
+      "clue_type": "pre_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_5",
+      "content": "苏晴的电脑里存有与陈教授的暧昧聊天记录，以及一封未发送的、内容是向外界求助的邮件草稿。",
+      "clue_type": "pre_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_6",
+      "content": "书房内“遗书”的笔迹分析，显示其书写风格与苏晴的笔迹有相似之处，似乎是匆忙写下的。",
+      "clue_type": "pre_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_7",
+      "content": "书房内散落着关于分离性身份识别障碍（DID）的研究文件，其中提到了人格“整合”的激进方法。",
+      "clue_type": "filler_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_8",
+      "content": "客厅壁炉旁的旧报纸上，刊登着陈教授获得某项心理学大奖的新闻。",
+      "clue_type": "filler_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    }
+  ],
+  "actions": [
+    {
+      "id": "action_1",
+      "name": "移动到书房",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "scene_2",
+      "cost": {
+        "stamina": 5
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_2",
+      "name": "移动到客厅",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "scene_1",
+      "cost": {
+        "stamina": 5
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_3",
+      "name": "移动到实验室",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "scene_3",
+      "cost": {
+        "stamina": 8
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_4",
+      "name": "移动到客厅",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "scene_1",
+      "cost": {
+        "stamina": 8
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_5",
+      "name": "与林默交谈",
+      "action_type": "interact",
+      "target_source_id": "npc_1",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 3
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_6",
+      "name": "与老王交谈",
+      "action_type": "interact",
+      "target_source_id": "npc_2",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 3
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_7",
+      "name": "与苏晴交谈",
+      "action_type": "interact",
+      "target_source_id": "npc_3",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 3
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_8",
+      "name": "检查陈教授的书桌",
+      "action_type": "interact",
+      "target_source_id": "item_1",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 4
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_9",
+      "name": "检查林默的实验室日记",
+      "action_type": "interact",
+      "target_source_id": "item_2",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 6
+      },
+      "unlock_condition": null
+    }
+  ]
+}

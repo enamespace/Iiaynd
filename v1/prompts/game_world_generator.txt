@@ -9,10 +9,10 @@
 ```json
 {
   "truth": {"凶手": "李华", "动机": "复仇", "手法": "毒药"},
-  "scenes": [{"id": "S1", "name": "客厅", "description": "...", "connected_scenes": ["S2"]}],
-  "sources": [{"id": "NPC1", "name": "管家", "type": "npc", "description": "...", "scene_id": "S1", "hidden_clues": ["C1"]}],
-  "clues": [{"id": "C1", "content": "...", "clue_type": "key_clue", "deduction_link": {...}}],
-  "actions": [{"id": "A1", "name": "移动到书房", "action_type": "move", "target_scene_id": "S2", "cost": {"stamina": 5}}]
+  "scenes": [{"id": "scene_1", "name": "客厅", "description": "...", "connected_scenes": ["scene_2"]}],
+  "sources": [{"id": "npc_1", "name": "管家", "type": "npc", "description": "...", "scene_id": "scene_1", "hidden_clues": ["clue_1"]}],
+  "clues": [{"id": "clue_1", "content": "...", "clue_type": "key_clue", "deduction_link": {...}}],
+  "actions": [{"id": "action_1", "name": "移动到书房", "action_type": "move", "target_scene_id": "scene_2", "cost": {"stamina": 5}}]
 }
 ```
 
@@ -24,12 +24,12 @@
 - 确保玩家收集所有 key_clue 后必然能锁定所有真相维度
 
 ### 2. 场景设计
-- 创建 2-4 个场景，使用简单 ID（S1, S2...）
+- 创建 2-4 个场景，使用简单 ID（scene_1, scene_2...）
 - connected_scenes 确保双向连通
 
 ### 3. 来源设计
 - type 必须是 "npc" 或 "item"
-- 使用简单 ID（NPC1, NPC2, ITEM1...）
+- 使用简单 ID（npc_1, npc_2, item_1...）
 - 每个 NPC/物品携带线索
 
 ### 4. 线索设计
@@ -41,9 +41,9 @@
   - reasoning: 推理说明
 - 示例：
   ```json
-  {"id": "C1", "content": "...", "clue_type": "key_clue", "deduction_link": {"truth_dimension": "凶手", "target_value": "李华", "reasoning": "..."}}
-  {"id": "C2", "content": "...", "clue_type": "pre_clue", "deduction_link": null}
-  {"id": "C3", "content": "...", "clue_type": "filler_clue", "deduction_link": null}
+  {"id": "clue_1", "content": "...", "clue_type": "key_clue", "deduction_link": {"truth_dimension": "凶手", "target_value": "李华", "reasoning": "..."}}
+  {"id": "clue_2", "content": "...", "clue_type": "pre_clue", "deduction_link": null}
+  {"id": "clue_3", "content": "...", "clue_type": "filler_clue", "deduction_link": null}
   ```
 
 ### 5. 行动设计
@@ -51,9 +51,9 @@
 - move 需要 target_scene_id
 - interact 需要 target_source_id
 - cost 如 {"stamina": 5}
-- **重要**：移动行动必须双向生成！如果 S1 连接 S2，必须同时生成：
-  - 从 S1 到 S2 的 move 行动
-  - 从 S2 到 S1 的 move 行动
+- **重要**：移动行动必须双向生成！如果 scene_1 连接 scene_2，必须同时生成：
+  - 从 scene_1 到 scene_2 的 move 行动
+  - 从 scene_2 到 scene_1 的 move 行动
   - 这样玩家才能来回移动
 
 ## 重要提示

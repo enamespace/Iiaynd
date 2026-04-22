@@ -1,28 +1,28 @@
 from typing import List, Tuple
 from ..models import (
-    GameWorld, PlayerState, GameAction, ActionType, Scene, Source
+    World, PlayerState, Action, ActionType, Scene, Source
 )
 from .clue_manager import ClueManager
 from .deduction_engine import DeductionEngine
 
 class GameEngine:
-    def __init__(self, world: GameWorld, state: PlayerState):
+    def __init__(self, world: World, state: PlayerState):
         self.world = world
         self.state = state
         self.clue_manager = ClueManager(world, state)
         self.deduction_engine = DeductionEngine(world, state)
 
     def get_current_scene(self) -> Scene:
-        for scene in self.world.scenes:
-            if scene.id == self.state.current_scene_id:
-                return scene
-        raise ValueError(f"Scene {self.state.current_scene_id} not found")
+        scene = self.world.get_scene_by_id(self.state.current_scene_id)
+        if scene is None:
+            raise ValueError(f"Scene {self.state.current_scene_id} not found")
+        return scene
 
     def get_sources_in_current_scene(self) -> List[Source]:
         current_scene = self.get_current_scene()
         return [s for s in self.world.sources if s.scene_id == current_scene.id]
 
-    def get_available_actions(self) -> List[GameAction]:
+    def get_available_actions(self) -> List[Action]:
         """获取当前可用的行动列表"""
         current_scene = self.get_current_scene()
         scene_sources = self.get_sources_in_current_scene()
@@ -49,7 +49,7 @@ class GameEngine:
 
     def execute_action(self, action_id: str) -> Tuple[bool, str]:
         """执行行动"""
-        action = self.get_action_by_id(action_id)
+        action = self.world.get_action_by_id(action_id)
         if action is None:
             return False, f"行动 {action_id} 不存在"
 
@@ -68,43 +68,40 @@ class GameEngine:
 
         elif action.action_type == ActionType.interact:
             # 获取来源的隐藏线索
-            source = self.get_source_by_id(action.target_source_id)
+            source = self.world.get_source_by_id(action.target_source_id)
             if source is None:
                 return False, "目标不存在"
 
             results = []
-            for clue_id in source.hidden_clues:
-                can_reveal, reason = self.clue_manager.check_unlock(clue_id)
-                if can_reveal:
-                    success, content = self.clue_manager.reveal_clue(clue_id)
-                    if success:
-                        # 处理推理锁定
-                        dim, val = self.deduction_engine.process_clue(clue_id)
-                        if dim:
-                            results.append(f"{content}\n【锁定】你对【{dim}】已有了确切的结论：{val}")
-                        else:
-                            results.append(content)
-                else:
-                    results.append(f"目前无法发现更多信息。提示：{reason}")
+
+            # 先显示物品/NPC的描述
+            results.append(f"【{source.name}】\n{source.description}")
+
+            # 处理隐藏线索
+            if source.hidden_clues:
+                results.append("")  # 分隔线
+                for clue_id in source.hidden_clues:
+                    can_reveal, reason = self.clue_manager.check_unlock(clue_id)
+                    if can_reveal:
+                        success, content = self.clue_manager.reveal_clue(clue_id)
+                        if success:
+                            # 处理推理锁定
+                            dim, val = self.deduction_engine.process_clue(clue_id)
+                            if dim:
+                                results.append(f"【发现线索】{content}\n【锁定】你对【{dim}】已有了确切的结论：{val}")
+                            else:
+                                results.append(f"【发现线索】{content}")
+                    else:
+                        results.append(f"【线索提示】目前无法发现更多信息。提示：{reason}")
+            else:
+                results.append("\n该物品上没有发现更多线索。")
 
             return True, "\n".join(results)
 
         return False, "未知行动类型"
 
-    def get_action_by_id(self, action_id: str) -> GameAction | None:
-        for action in self.world.actions:
-            if action.id == action_id:
-                return action
-        return None
-
-    def get_source_by_id(self, source_id: str) -> Source | None:
-        for source in self.world.sources:
-            if source.id == source_id:
-                return source
-        return None
-
     def get_scene_name(self, scene_id: str) -> str:
-        for scene in self.world.scenes:
-            if scene.id == scene_id:
-                return scene.name
-        return "未知场景"
+        scene = self.world.get_scene_by_id(scene_id)
+        if scene is None:
+            return "未知场景"
+        return scene.name

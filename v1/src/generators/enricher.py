@@ -5,7 +5,7 @@ import traceback
 from pathlib import Path
 from typing import Optional
 
-from src.llm_client import ZhipuLLMClient
+from src.llm_client import ZhipuLLMClient, clean_json_response, llm_call_with_retry
 from src.models import EnrichedStory
 
 logger = logging.getLogger("story_enricher")
@@ -23,43 +23,24 @@ class StoryEnricher:
             raise FileNotFoundError(f"Template not found: {self.template_path}")
         return self.template_path.read_text(encoding="utf-8")
 
-    def enrich(self, story_prompt: str) -> EnrichedStory:
-        """丰富故事内容"""
+    def enrich(self, story_prompt: str, max_retries: int = 3) -> EnrichedStory:
+        """丰富故事内容，失败时自动重试"""
         template = self.load_template()
-        # 使用 replace 避免 JSON 中的 {} 被误解析
         prompt = template.replace("{story}", story_prompt)
 
-        logger.info("Enriching story...")
-        content = self.llm.call(
-            prompt=prompt,
-            system_prompt="你是一位专业的推理小说作家。擅长创作悬疑、紧凑、逻辑严密的推理故事。请严格按照 JSON 格式输出，不要添加任何额外的文字说明。"
+        system_prompt = (
+            "你是一位专业的推理小说作家。擅长创作悬疑、紧凑、逻辑严密的推理故事。"
+            "请严格按照 JSON 格式输出，不要添加任何额外的文字说明。"
         )
 
-        # 清洗 Markdown 代码块
-        cleaned = content.strip()
-        for prefix in ["```json\n", "```JSON\n", "```\n"]:
-            if cleaned.startswith(prefix):
-                cleaned = cleaned[len(prefix):]
-                break
-        if cleaned.endswith("```"):
-            cleaned = cleaned[:-3]
-        cleaned = cleaned.strip()
-
-        try:
-            data = json.loads(cleaned)
-        except json.JSONDecodeError as e:
-            logger.error(f"JSON parse error: {e}")
-            logger.error(f"Raw content[:500]: {content[:500]}")
-            logger.error(f"Cleaned content[:500]: {cleaned[:500]}")
-            raise
-
-        try:
-            enriched = EnrichedStory(**data)
-        except Exception as e:
-            logger.error(f"EnrichedStory creation error: {e}")
-            logger.error(f"Data keys: {list(data.keys())}")
-            logger.error(traceback.format_exc())
-            raise
+        enriched = llm_call_with_retry(
+            llm=self.llm,
+            prompt=prompt,
+            system_prompt=system_prompt,
+            model_class=EnrichedStory,
+            max_retries=max_retries,
+            error_context="故事丰富化"
+        )
 
         logger.info(f"Enriched story: {enriched.title}")
         logger.info(f"  Characters: {len(enriched.characters)}, Scenes: {len(enriched.scenes)}")

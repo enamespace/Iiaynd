@@ -15,7 +15,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from src.llm_client import ZhipuLLMClient
-from src.modules.progressive_generator import ProgressiveGenerator
+from src.generators.progressive import ProgressiveGenerator
 
 load_dotenv()
 
@@ -43,9 +43,9 @@ def main():
         story = load_story(args.story_name)
         logger.info(f"Loaded: stories/{args.story_name}/story.txt")
 
-        # 创建运行目录
+        # 创建运行目录（生成记录）
         timestamp = time.strftime("%Y%m%d_%H%M%S")
-        run_dir = Path(f"stories/{args.story_name}/runs/{timestamp}")
+        run_dir = Path(f"stories/{args.story_name}/runs/gen_{timestamp}")
         run_dir.mkdir(parents=True, exist_ok=True)
 
         # 初始化生成器
@@ -93,7 +93,7 @@ def main():
         print(f"\n✅ Generated: {run_dir}")
         print(f"   Scenes: {len(world.scenes)}, Sources: {len(world.sources)}, Clues: {len(world.clues)}, Actions: {len(world.actions)}")
         print(f"   Logs: {generator.log_dir}")
-        print(f"\n   Play: python play_main.py {world_file}")
+        print(f"\n   Play: python play.py {world_file}")
 
     except Exception as e:
         logger.error(f"Failed: {e}")

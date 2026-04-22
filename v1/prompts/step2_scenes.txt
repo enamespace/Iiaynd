@@ -11,16 +11,16 @@
 {
   "scenes": [
     {
-      "id": "S1",
+      "id": "scene_1",
       "name": "场景名称",
       "description": "场景描述（包含氛围、细节）",
-      "connected_scenes": ["S2", "S3"]
+      "connected_scenes": ["scene_2", "scene_3"]
     },
     {
-      "id": "S2",
+      "id": "scene_2",
       "name": "场景名称",
       "description": "场景描述",
-      "connected_scenes": ["S1"]
+      "connected_scenes": ["scene_1"]
     }
   ]
 }
@@ -29,9 +29,9 @@
 ## 设计原则
 
 1. **场景数量**：2-4 个场景
-2. **双向连接**：如果 S1 连接 S2，则 S2 的 connected_scenes 必须包含 S1
+2. **双向连接**：如果 scene_1 连接 scene_2，则 scene_2 的 connected_scenes 必须包含 scene_1
 3. **场景描述**：要有氛围感，符合故事设定，暗示可能隐藏线索的位置
-4. **场景ID**：使用简单的 S1, S2, S3 格式
+4. **场景ID**：使用简单的 scene_1, scene_2, scene_3 格式
 
 ## 场景类型建议
 

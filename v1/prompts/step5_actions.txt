@@ -11,38 +11,38 @@
 {
   "actions": [
     {
-      "id": "A1",
+      "id": "action_1",
       "name": "移动到XX",
       "action_type": "move",
-      "target_scene_id": "S2",
+      "target_scene_id": "scene_2",
       "target_source_id": null,
       "cost": {"stamina": 5},
       "unlock_condition": null
     },
     {
-      "id": "A2",
+      "id": "action_2",
       "name": "移动到XX",
       "action_type": "move",
-      "target_scene_id": "S1",
+      "target_scene_id": "scene_1",
       "target_source_id": null,
       "cost": {"stamina": 5},
       "unlock_condition": null
     },
     {
-      "id": "A3",
+      "id": "action_3",
       "name": "与XX交谈",
       "action_type": "interact",
       "target_scene_id": null,
-      "target_source_id": "NPC1",
+      "target_source_id": "npc_1",
       "cost": {"stamina": 3},
       "unlock_condition": null
     },
     {
-      "id": "A4",
+      "id": "action_4",
       "name": "检查XX",
       "action_type": "interact",
       "target_scene_id": null,
-      "target_source_id": "ITEM1",
+      "target_source_id": "item_1",
       "cost": {"stamina": 2},
       "unlock_condition": null
     }
@@ -53,7 +53,7 @@
 ## 关键要求
 
 1. **移动行动必须双向生成**
-   - 如果 S1 连接 S2，必须生成：从 S1→S2 和从 S2→S1 的移动
+   - 如果 scene_1 连接 scene_2，必须生成：从 scene_1→scene_2 和从 scene_2→scene_1 的移动
    - 检查每个场景的 connected_scenes，为每条连接生成双向移动
 
 2. **交互行动覆盖所有来源**

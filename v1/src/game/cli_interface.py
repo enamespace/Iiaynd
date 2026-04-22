@@ -1,8 +1,8 @@
-from ..models import GameWorld, PlayerState, GameAction
+from ..models import World, PlayerState, Action
 from .engine import GameEngine
 
 class CLIInterface:
-    def __init__(self, world: GameWorld, state: PlayerState):
+    def __init__(self, world: World, state: PlayerState):
         self.world = world
         self.state = state
         self.engine = GameEngine(world, state)
@@ -77,7 +77,7 @@ class CLIInterface:
         """渲染已收集证据"""
         lines = ["=" * 60, "【已收集证据】"]
         for clue_id in self.state.collected_clues:
-            clue = self.engine.clue_manager.get_clue_by_id(clue_id)
+            clue = self.world.get_clue_by_id(clue_id)
             if clue:
                 lines.append(f"\n[{clue_id}] {clue.content}")
                 if clue.deduction_link:
@@ -100,7 +100,7 @@ class CLIInterface:
 
         lines.append("\n【推理路径】")
         for clue_id in self.state.collected_clues:
-            clue = self.engine.clue_manager.get_clue_by_id(clue_id)
+            clue = self.world.get_clue_by_id(clue_id)
             if clue and clue.deduction_link:
                 lines.append(f"• {clue.content} → 锁定{clue.deduction_link.truth_dimension}：{clue.deduction_link.target_value}")
 

@@ -1,20 +1,14 @@
 from typing import Tuple
-from ..models import GameWorld, PlayerState, Clue
+from ..models import World, PlayerState, Clue
 
 class ClueManager:
-    def __init__(self, world: GameWorld, state: PlayerState):
+    def __init__(self, world: World, state: PlayerState):
         self.world = world
         self.state = state
 
-    def get_clue_by_id(self, clue_id: str) -> Clue | None:
-        for clue in self.world.clues:
-            if clue.id == clue_id:
-                return clue
-        return None
-
     def check_unlock(self, clue_id: str) -> Tuple[bool, str]:
         """检查线索是否可以被揭示"""
-        clue = self.get_clue_by_id(clue_id)
+        clue = self.world.get_clue_by_id(clue_id)
         if clue is None:
             return False, f"线索 {clue_id} 不存在"
 
@@ -34,7 +28,7 @@ class ClueManager:
         if not can_unlock:
             return False, reason
 
-        clue = self.get_clue_by_id(clue_id)
+        clue = self.world.get_clue_by_id(clue_id)
         if clue is None:
             return False, "线索不存在"
 

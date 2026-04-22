@@ -1,44 +1,44 @@
 import pytest
-from src.models import Scene, Source, SourceType, Clue, ClueType, DeductionLink, UnlockCondition, GameAction, ActionType, GameWorld, PlayerState
+from src.models import Scene, Source, SourceType, Clue, ClueType, DeductionLink, UnlockCondition, Action, ActionType, World, PlayerState
 
 def test_scene_model_creation():
     scene = Scene(
-        id="S1",
+        id="scene_1",
         name="书房",
         description="一间昏暗的书房",
-        connected_scenes=["S2", "S3"]
+        connected_scenes=["scene_2", "scene_3"]
     )
-    assert scene.id == "S1"
+    assert scene.id == "scene_1"
     assert scene.name == "书房"
     assert scene.description == "一间昏暗的书房"
-    assert scene.connected_scenes == ["S2", "S3"]
+    assert scene.connected_scenes == ["scene_2", "scene_3"]
 
 def test_source_npc_creation():
     source = Source(
-        id="NPC1",
+        id="npc_1",
         name="管家",
         type=SourceType.npc,
         description="一位穿着整洁西装的中年男子",
-        scene_id="S2",
-        hidden_clues=["CLUE_KEY_1"]
+        scene_id="scene_2",
+        hidden_clues=["clue_1"]
     )
     assert source.type == SourceType.npc
-    assert source.hidden_clues == ["CLUE_KEY_1"]
+    assert source.hidden_clues == ["clue_1"]
 
 def test_source_item_creation():
     source = Source(
-        id="ITEM1",
+        id="item_1",
         name="红酒杯",
         type=SourceType.item,
         description="桌上的半杯红酒",
-        scene_id="S1",
-        hidden_clues=["CLUE_KEY_2"]
+        scene_id="scene_1",
+        hidden_clues=["clue_2"]
     )
     assert source.type == SourceType.item
 
 def test_clue_key_clue_creation():
     clue = Clue(
-        id="CLUE_KEY_1",
+        id="clue_1",
         content="管家手套内侧有毒药残留",
         clue_type=ClueType.key_clue,
         deduction_link=DeductionLink(
@@ -53,77 +53,106 @@ def test_clue_key_clue_creation():
 
 def test_clue_pre_clue_with_unlock_condition():
     clue = Clue(
-        id="CLUE_PRE_1",
+        id="clue_pre_1",
         content="发现管家日记",
         clue_type=ClueType.pre_clue,
         deduction_link=None,
         unlock_condition=UnlockCondition(
-            required_clues=["CLUE_KEY_2"],
+            required_clues=["clue_2"],
             reason="需要先发现红酒有毒"
         )
     )
-    assert clue.unlock_condition.required_clues == ["CLUE_KEY_2"]
+    assert clue.unlock_condition.required_clues == ["clue_2"]
 
-def test_game_action_interact():
-    action = GameAction(
-        id="A1",
+def test_action_interact():
+    action = Action(
+        id="action_1",
         name="检查红酒杯",
         action_type=ActionType.interact,
-        target_source_id="ITEM1",
+        target_source_id="item_1",
         cost={"stamina": 5},
         unlock_condition=None
     )
     assert action.action_type == ActionType.interact
-    assert action.target_source_id == "ITEM1"
+    assert action.target_source_id == "item_1"
 
-def test_game_action_move():
-    action = GameAction(
-        id="A2",
+def test_action_move():
+    action = Action(
+        id="action_2",
         name="前往客厅",
         action_type=ActionType.move,
-        target_scene_id="S2",
+        target_scene_id="scene_2",
         cost={"stamina": 10},
         unlock_condition=None
     )
     assert action.action_type == ActionType.move
-    assert action.target_scene_id == "S2"
+    assert action.target_scene_id == "scene_2"
 
-def test_game_world_creation():
-    world = GameWorld(
+def test_world_creation():
+    world = World(
         truth={"凶手": "管家", "凶器": "毒药"},
         scenes=[
-            Scene(id="S1", name="书房", description="昏暗的书房", connected_scenes=["S2"])
+            Scene(id="scene_1", name="书房", description="昏暗的书房", connected_scenes=["scene_2"])
         ],
         sources=[
-            Source(id="NPC1", name="管家", type=SourceType.npc, description="管家", scene_id="S2", hidden_clues=["CLUE_1"])
+            Source(id="npc_1", name="管家", type=SourceType.npc, description="管家", scene_id="scene_2", hidden_clues=["clue_1"])
         ],
         clues=[
-            Clue(id="CLUE_1", content="线索", clue_type=ClueType.key_clue,
+            Clue(id="clue_1", content="线索", clue_type=ClueType.key_clue,
                  deduction_link=DeductionLink(truth_dimension="凶手", target_value="管家", reasoning="推理"))
         ],
         actions=[
-            GameAction(id="A1", name="检查", action_type=ActionType.interact, target_source_id="NPC1")
+            Action(id="action_1", name="检查", action_type=ActionType.interact, target_source_id="npc_1")
         ]
     )
     assert world.truth["凶手"] == "管家"
     assert len(world.scenes) == 1
     assert len(world.clues) == 1
 
+def test_world_query_methods():
+    """Test the query methods on World class"""
+    world = World(
+        truth={"凶手": "管家"},
+        scenes=[
+            Scene(id="scene_1", name="书房", description="书房", connected_scenes=["scene_2"]),
+            Scene(id="scene_2", name="客厅", description="客厅", connected_scenes=["scene_1"])
+        ],
+        sources=[
+            Source(id="npc_1", name="管家", type=SourceType.npc, description="管家", scene_id="scene_1", hidden_clues=["clue_1"])
+        ],
+        clues=[
+            Clue(id="clue_1", content="线索", clue_type=ClueType.key_clue,
+                 deduction_link=DeductionLink(truth_dimension="凶手", target_value="管家", reasoning="推理"))
+        ],
+        actions=[
+            Action(id="action_1", name="检查", action_type=ActionType.interact, target_source_id="npc_1")
+        ]
+    )
+    # Test query methods
+    assert world.get_scene_by_id("scene_1").name == "书房"
+    assert world.get_scene_by_id("invalid") is None
+    assert world.get_source_by_id("npc_1").name == "管家"
+    assert world.get_source_by_id("invalid") is None
+    assert world.get_clue_by_id("clue_1").content == "线索"
+    assert world.get_clue_by_id("invalid") is None
+    assert world.get_action_by_id("action_1").name == "检查"
+    assert world.get_action_by_id("invalid") is None
+
 def test_player_state_creation():
     state = PlayerState(
-        current_scene_id="S1",
-        collected_clues=["CLUE_1"],
-        executed_actions=["A1"],
+        current_scene_id="scene_1",
+        collected_clues=["clue_1"],
+        executed_actions=["action_1"],
         stamina=100,
         locked_dimensions={"凶手": None, "凶器": None}
     )
-    assert state.current_scene_id == "S1"
+    assert state.current_scene_id == "scene_1"
     assert state.stamina == 100
     assert state.locked_dimensions["凶手"] is None
 
 def test_player_state_lock_dimension():
     state = PlayerState(
-        current_scene_id="S1",
+        current_scene_id="scene_1",
         collected_clues=[],
         executed_actions=[],
         stamina=100,
@@ -134,7 +163,7 @@ def test_player_state_lock_dimension():
 
 def test_player_state_is_all_locked():
     state = PlayerState(
-        current_scene_id="S1",
+        current_scene_id="scene_1",
         collected_clues=[],
         executed_actions=[],
         stamina=100,
@@ -144,7 +173,7 @@ def test_player_state_is_all_locked():
 
 def test_player_state_not_all_locked():
     state = PlayerState(
-        current_scene_id="S1",
+        current_scene_id="scene_1",
         collected_clues=[],
         executed_actions=[],
         stamina=100,
