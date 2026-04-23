@@ -1,0 +1,36 @@
+{
+  "truth": {
+    "凶手": "林默",
+    "动机": "病态的宿命论",
+    "手法": "多重人格，使用不同工具"
+  },
+  "collected_clues": [
+    "clue_key_1",
+    "clue_pre_2",
+    "clue_pre_1",
+    "clue_pre_4",
+    "clue_pre_3",
+    "clue_key_3",
+    "clue_key_2"
+  ],
+  "locked_dimensions": {
+    "凶手": "林默",
+    "动机": "病态的宿命论",
+    "手法": "多重人格，使用不同工具"
+  },
+  "executed_actions": [
+    "action_interact_1",
+    "action_interact_3",
+    "action_interact_4",
+    "action_interact_6",
+    "action_move_1_2",
+    "action_move_2_1",
+    "action_move_1_3",
+    "action_interact_5",
+    "action_move_3_4",
+    "action_interact_7",
+    "action_interact_2"
+  ],
+  "final_stamina": -34,
+  "victory": true
+}

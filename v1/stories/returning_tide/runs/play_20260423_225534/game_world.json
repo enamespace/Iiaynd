@@ -1,0 +1,385 @@
+{
+  "truth": {
+    "凶手": "林默",
+    "动机": "病态的宿命论",
+    "手法": "多重人格，使用不同工具"
+  },
+  "scenes": [
+    {
+      "id": "scene_1",
+      "name": "中央营地",
+      "description": "幸存者们搭建的临时营地，位于岛屿背风处。篝火在夜晚熊熊燃烧，但每个人的脸上都写满了不安。这里是大家交流、争论和发现线索的主要场所。",
+      "connected_scenes": [
+        "scene_2",
+        "scene_3"
+      ]
+    },
+    {
+      "id": "scene_2",
+      "name": "灯塔顶端",
+      "description": "一座矗立在岛屿最高处的废弃灯塔。塔身布满锈迹，内部楼梯摇摇欲坠。墙上刻着那句诡异的预言。灯塔的顶端是绝佳的观察点，也是潜在的谋杀现场。",
+      "connected_scenes": [
+        "scene_1"
+      ]
+    },
+    {
+      "id": "scene_3",
+      "name": "丛林小径",
+      "description": "连接营地和岛屿另一侧的狭窄小径，两旁是高大的树木和灌木丛。这里光线昏暗，容易隐藏踪迹，是第二起谋杀案的发生地。",
+      "connected_scenes": [
+        "scene_1",
+        "scene_4"
+      ]
+    },
+    {
+      "id": "scene_4",
+      "name": "隐藏洞穴",
+      "description": "位于丛林深处的一个天然洞穴，入口被藤蔓覆盖。洞内有一张石桌和几把石椅，墙上刻着一些古老的符号。这里可能是前任岛民的避难所，也可能隐藏着解开谜团的关键日志。",
+      "connected_scenes": [
+        "scene_3"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "npc_1",
+      "name": "林默",
+      "type": "npc",
+      "description": "一个看起来文弱、善于观察的年轻人。他总是随身带着一个笔记本，记录着岛上的一切。他冷静、理智，试图通过逻辑分析来寻找真相。",
+      "scene_id": "scene_1",
+      "hidden_clues": []
+    },
+    {
+      "id": "item_1",
+      "name": "林默的笔记本",
+      "type": "item",
+      "description": "一本厚厚的黑色封皮笔记本，里面密密麻麻地记录着幸存者们的言行和岛上发生的一切，甚至包括一些只有他自己能看懂的符号。",
+      "scene_id": "scene_1",
+      "hidden_clues": [
+        "clue_key_1"
+      ]
+    },
+    {
+      "id": "npc_2",
+      "name": "陈伯",
+      "type": "npc",
+      "description": "经验丰富但神情疲惫的老船长，脸上布满风霜。他总是下意识地抚摸自己的航海日志，眼神中透露出深深的忧虑和一丝难以察觉的恐惧。",
+      "scene_id": "scene_1",
+      "hidden_clues": []
+    },
+    {
+      "id": "item_2",
+      "name": "陈伯的航海日志",
+      "type": "item",
+      "description": "一本被海水浸湿过的硬皮日志，记录了“海神号”失事前的航行路线，其中一页被撕掉了一角，但边缘的笔记依然可见。",
+      "scene_id": "scene_1",
+      "hidden_clues": [
+        "clue_key_2"
+      ]
+    },
+    {
+      "id": "npc_3",
+      "name": "李医生",
+      "type": "npc",
+      "description": "一个严谨、冷静的中年人，总是穿着白大褂，即使是在荒岛上。他的药箱里除了常规药品，还有一些不常见的化学试剂。",
+      "scene_id": "scene_1",
+      "hidden_clues": []
+    },
+    {
+      "id": "item_3",
+      "name": "李医生的药箱",
+      "type": "item",
+      "description": "一个金属药箱，锁已经坏了。里面除了绷带和消毒水，还放着一个标有“剧毒”的玻璃瓶，瓶身标签已经模糊。",
+      "scene_id": "scene_1",
+      "hidden_clues": [
+        "clue_pre_2"
+      ]
+    },
+    {
+      "id": "npc_4",
+      "name": "张神父",
+      "type": "npc",
+      "description": "一位年迈的神父，手持一个破旧的十字架。他不断向众人布道，强调“天意”和“命运的不可抗拒”。他的话语总是充满暗示，让人不安。",
+      "scene_id": "scene_1",
+      "hidden_clues": []
+    },
+    {
+      "id": "item_4",
+      "name": "张神父的日记",
+      "type": "item",
+      "description": "一本皮面日记，里面除了圣经经文，还写满了关于“天谴”和“净化”的晦涩文字，其中一页被撕掉了。",
+      "scene_id": "scene_1",
+      "hidden_clues": [
+        "clue_pre_1"
+      ]
+    },
+    {
+      "id": "npc_5",
+      "name": "赵工",
+      "type": "npc",
+      "description": "一个务实、愤世嫉俗的中年男人，专注于生存。他沉默寡言，但动手能力极强，负责搭建庇护所和寻找食物。",
+      "scene_id": "scene_1",
+      "hidden_clues": []
+    },
+    {
+      "id": "item_5",
+      "name": "赵工的扳手",
+      "type": "item",
+      "description": "一把沉重的金属扳手，上面沾有泥土和血迹，在丛林小径的案发现场被发现。",
+      "scene_id": "scene_3",
+      "hidden_clues": [
+        "clue_pre_3"
+      ]
+    },
+    {
+      "id": "npc_6",
+      "name": "小雅",
+      "type": "npc",
+      "description": "一个看起来天真、胆小的女孩，总是跟在别人身后。她很少说话，但眼睛里却藏着与年龄不符的复杂情绪。",
+      "scene_id": "scene_1",
+      "hidden_clues": []
+    },
+    {
+      "id": "item_6",
+      "name": "王总的打火机",
+      "type": "item",
+      "description": "一个金色的Zippo打火机，在王总的尸体旁被发现，小雅的手里也有一模一样的一个。",
+      "scene_id": "scene_1",
+      "hidden_clues": [
+        "clue_pre_4"
+      ]
+    },
+    {
+      "id": "item_7",
+      "name": "洞穴中的古老日志",
+      "type": "item",
+      "description": "在隐藏洞穴的石桌上发现的一卷羊皮纸，上面用古老的文字记录着一个关于“第八个人”的预言，以及关于“命运的使者”的描述。",
+      "scene_id": "scene_4",
+      "hidden_clues": [
+        "clue_key_3"
+      ]
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_key_1",
+      "content": "笔记本中的一页，显示“执行者”人格的笔迹，与林默本人的笔迹截然不同，并写有“天罚已开始，我是命运的囚徒”的字样。",
+      "clue_type": "key_clue",
+      "deduction_link": {
+        "truth_dimension": "凶手",
+        "target_value": "林默",
+        "reasoning": "笔记中出现了与林默本人笔迹不同的‘执行者’人格的笔迹，并明确提到了‘天罚’和‘命运的囚徒’，直接指向林默是凶手。"
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_key_2",
+      "content": "陈伯航海日志的副本，显示航线被故意从官方航线偏移，并有一行潦草的注释：“为了‘业债’，必须让他们聚集于此。”",
+      "clue_type": "key_clue",
+      "deduction_link": {
+        "truth_dimension": "动机",
+        "target_value": "病态的宿命论",
+        "reasoning": "航海日志显示航线被故意改变以制造海难，注释中的‘业债’与林默的宿命论动机完全吻合，证明他为了‘业债’而聚集众人。"
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_key_3",
+      "content": "洞穴中的古老日志，记录了‘第八个人将带来审判，他是命运的使者，也是命运的囚徒’，并描述了他会使用不同的方式来执行‘净化’。",
+      "clue_type": "key_clue",
+      "deduction_link": {
+        "truth_dimension": "手法",
+        "target_value": "多重人格，使用不同工具",
+        "reasoning": "古老日志揭示了‘第八个人’的预言，并指出他是‘命运的使者’和‘囚徒’，暗示其双重人格，通过不同方式执行‘审判’，与案件手法一致。"
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_pre_1",
+      "content": "张神父的日记中提到“天谴”和“净化”，似乎在为谋杀提供宗教借口。",
+      "clue_type": "pre_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_pre_2",
+      "content": "李医生的药箱里发现的一种罕见毒药，与王总的死因相符。",
+      "clue_type": "pre_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_pre_3",
+      "content": "赵工的扳手在第二起案发现场被发现，上面有他的指纹。",
+      "clue_type": "pre_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_pre_4",
+      "content": "小雅被发现在王总的尸体旁，手里拿着一个属于王总的打火机，暗示她可能是为了复仇或勒索而杀人。",
+      "clue_type": "pre_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_filler_1",
+      "content": "灯塔墙壁上刻着那句诡异的预言：‘第八个人将杀死所有人’。",
+      "clue_type": "filler_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    },
+    {
+      "id": "clue_filler_2",
+      "content": "记录了王总和赵工在资源分配上产生过激烈冲突，赵工曾扬言要“教训”王总。",
+      "clue_type": "filler_clue",
+      "deduction_link": null,
+      "unlock_condition": null
+    }
+  ],
+  "actions": [
+    {
+      "id": "action_move_1_2",
+      "name": "前往灯塔顶端",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "scene_2",
+      "cost": {
+        "stamina": 10
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_move_2_1",
+      "name": "返回中央营地",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "scene_1",
+      "cost": {
+        "stamina": 10
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_move_1_3",
+      "name": "前往丛林小径",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "scene_3",
+      "cost": {
+        "stamina": 8
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_move_3_1",
+      "name": "返回中央营地",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "scene_1",
+      "cost": {
+        "stamina": 8
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_move_3_4",
+      "name": "探索隐藏洞穴",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "scene_4",
+      "cost": {
+        "stamina": 15
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_move_4_3",
+      "name": "离开隐藏洞穴",
+      "action_type": "move",
+      "target_source_id": null,
+      "target_scene_id": "scene_3",
+      "cost": {
+        "stamina": 15
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_interact_1",
+      "name": "检查林默的笔记本",
+      "action_type": "interact",
+      "target_source_id": "item_1",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 5
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_interact_2",
+      "name": "阅读陈伯的航海日志",
+      "action_type": "interact",
+      "target_source_id": "item_2",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 5
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_interact_3",
+      "name": "检查李医生的药箱",
+      "action_type": "interact",
+      "target_source_id": "item_3",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 5
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_interact_4",
+      "name": "查看张神父的日记",
+      "action_type": "interact",
+      "target_source_id": "item_4",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 5
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_interact_5",
+      "name": "检查赵工的扳手",
+      "action_type": "interact",
+      "target_source_id": "item_5",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 5
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_interact_6",
+      "name": "查看王总的打火机",
+      "action_type": "interact",
+      "target_source_id": "item_6",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 5
+      },
+      "unlock_condition": null
+    },
+    {
+      "id": "action_interact_7",
+      "name": "研究洞穴中的古老日志",
+      "action_type": "interact",
+      "target_source_id": "item_7",
+      "target_scene_id": null,
+      "cost": {
+        "stamina": 10
+      },
+      "unlock_condition": null
+    }
+  ]
+}
